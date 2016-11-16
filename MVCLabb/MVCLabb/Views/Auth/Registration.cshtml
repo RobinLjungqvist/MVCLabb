@@ -1,0 +1,20 @@
+﻿@model DataAccessLayer.Users
+@{
+    ViewBag.Title = "Registration";
+}
+
+<h2>Registration</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.DisplayNameFor(m => m.FirstName);
+    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" });
+    @Html.DisplayNameFor(m => m.LastName);
+    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" });
+    @Html.DisplayNameFor(m => m.Email);
+    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" });
+    @Html.DisplayNameFor(m => m.Password);
+    @Html.PasswordFor(m => m.Password);
+
+<button type="submit" classs="btn btn-default">Register</button>
+}

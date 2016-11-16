@@ -21,11 +21,6 @@ namespace MVCLabb.Controllers
         [HttpPost]
         public ActionResult Login(Users user)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(user);
-            }
-
             Users userToLogin = null;
             using (var ctx = new MVCLabbDB())
             {
@@ -37,7 +32,8 @@ namespace MVCLabb.Controllers
                 var identity = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Name, (userToLogin.FirstName + " " + userToLogin.LastName)),
-                    new Claim(ClaimTypes.Email, userToLogin.Email)
+                    new Claim(ClaimTypes.Email, userToLogin.Email),
+                    new Claim(ClaimTypes.NameIdentifier, userToLogin.guid.ToString())
                 },
                         "ApplicationCookie");
 
@@ -51,6 +47,47 @@ namespace MVCLabb.Controllers
             }
             ModelState.AddModelError("","Invalid Email or Password");
             return View(user);
+        }
+
+
+        [HttpGet]
+        public ActionResult Registration()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Registration(Users user)
+        {
+            user.guid = Guid.NewGuid();
+
+            if (ModelState.IsValid)
+            {
+                using(var ctx = new MVCLabbDB())
+                {
+                    var newUser = ctx.Users.Create();
+                    newUser.Email = user.Email;
+                    newUser.FirstName = user.FirstName;
+                    newUser.LastName = user.LastName;
+                    newUser.Password = user.Password;
+                    newUser.guid = Guid.NewGuid();
+                    ctx.Users.Add(newUser);
+                    ctx.SaveChanges();
+                }
+                return Redirect("/Auth/Login");
+            }
+
+            ModelState.AddModelError("","Something went wrong");
+            return View(user);
+        }
+
+        public ActionResult Logout()
+        {
+            var ctx = Request.GetOwinContext();
+            var authManager = ctx.Authentication;
+
+            authManager.SignOut("ApplicationCookie");
+            return RedirectToAction("Login", "Auth");
         }
     }
 }
