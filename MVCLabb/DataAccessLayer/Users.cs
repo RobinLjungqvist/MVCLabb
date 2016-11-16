@@ -23,18 +23,19 @@ namespace DataAccessLayer
         }
     
         public int id { get; set; }
-        [Required]
-        [StringLength(50, ErrorMessage = "Max 50 characters", MinimumLength = 3)]
+        [Required(ErrorMessage = "Required")]
+        [StringLength(50, ErrorMessage = "Min 3, Max 50 characters", MinimumLength = 3)]
         public string FirstName { get; set; }
         [Required]
-        [StringLength(50, ErrorMessage = "Max 50 characters", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = "Min 3, Max 50 characters", MinimumLength = 3)]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required")]
+        [StringLength(20, MinimumLength = 8, ErrorMessage ="Minimum 8 characters, Maximum 20")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         public System.Guid guid { get; set; }
