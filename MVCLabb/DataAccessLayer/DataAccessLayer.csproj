@@ -55,6 +55,9 @@
     <Compile Include="Comments.cs">
       <DependentUpon>LabbDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Gallery.cs">
+      <DependentUpon>LabbDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="LabbDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

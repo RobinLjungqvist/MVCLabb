@@ -12,28 +12,21 @@ namespace DataAccessLayer
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class Gallery
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Users()
+        public Gallery()
         {
-            this.Comments = new HashSet<Comments>();
             this.Pictures = new HashSet<Pictures>();
-            this.Galleries = new HashSet<Gallery>();
         }
     
         public int id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public System.Guid guid { get; set; }
+        public string GalleryName { get; set; }
+        public System.DateTime DateCreated { get; set; }
+        public int UserID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comments> Comments { get; set; }
+        public virtual Users User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pictures> Pictures { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gallery> Galleries { get; set; }
     }
 }

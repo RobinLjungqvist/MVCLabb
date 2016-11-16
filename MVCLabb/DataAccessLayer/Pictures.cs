@@ -28,9 +28,11 @@ namespace DataAccessLayer
         public Nullable<System.DateTime> DatePosted { get; set; }
         public Nullable<System.DateTime> DateEdited { get; set; }
         public bool @public { get; set; }
+        public int GalleryID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comments> Comments { get; set; }
         public virtual Users Users { get; set; }
+        public virtual Gallery Gallery { get; set; }
     }
 }

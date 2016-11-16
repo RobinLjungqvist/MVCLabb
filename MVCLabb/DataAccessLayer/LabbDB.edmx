@@ -17,6 +17,15 @@
           <Property Name="DatePosted" Type="datetime" />
           <Property Name="DateEdited" Type="datetime" />
         </EntityType>
+        <EntityType Name="Galleries">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GalleryName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Pictures">
           <Key>
             <PropertyRef Name="id" />
@@ -29,6 +38,7 @@
           <Property Name="DatePosted" Type="datetime" />
           <Property Name="DateEdited" Type="datetime" />
           <Property Name="public" Type="bit" Nullable="false" />
+          <Property Name="GalleryID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -65,6 +75,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Galleries_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Galleries" Type="Self.Galleries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Galleries">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pictures_Galleries">
+          <End Role="Galleries" Type="Self.Galleries" Multiplicity="1" />
+          <End Role="Pictures" Type="Self.Pictures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Galleries">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Pictures">
+              <PropertyRef Name="GalleryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Pictures_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Pictures" Type="Self.Pictures" Multiplicity="*" />
@@ -79,6 +113,7 @@
         </Association>
         <EntityContainer Name="MVCLabbDBModelStoreContainer">
           <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Galleries" EntityType="Self.Galleries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pictures" EntityType="Self.Pictures" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Comments_Pictures" Association="Self.FK_Comments_Pictures">
@@ -88,6 +123,14 @@
           <AssociationSet Name="FK_Comments_Users" Association="Self.FK_Comments_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Galleries_Users" Association="Self.FK_Galleries_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Galleries" EntitySet="Galleries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pictures_Galleries" Association="Self.FK_Pictures_Galleries">
+            <End Role="Galleries" EntitySet="Galleries" />
+            <End Role="Pictures" EntitySet="Pictures" />
           </AssociationSet>
           <AssociationSet Name="FK_Pictures_Users" Association="Self.FK_Pictures_Users">
             <End Role="Users" EntitySet="Users" />
@@ -126,6 +169,8 @@
           <Property Name="DatePosted" Type="DateTime" Precision="3" />
           <Property Name="DateEdited" Type="DateTime" Precision="3" />
           <Property Name="public" Type="Boolean" Nullable="false" />
+          <Property Name="GalleryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Gallery" Relationship="MVCLabbDBModel.FK_Pictures_Galleries" FromRole="Pictures" ToRole="Gallery" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -139,6 +184,7 @@
           <Property Name="guid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Comments" Relationship="MVCLabbDBModel.FK_Comments_Users" FromRole="Users" ToRole="Comments" />
           <NavigationProperty Name="Pictures" Relationship="MVCLabbDBModel.FK_Pictures_Users" FromRole="Users" ToRole="Pictures" />
+          <NavigationProperty Name="Galleries" Relationship="MVCLabbDBModel.FK_Galleries_Users" FromRole="Users" ToRole="Gallery" />
         </EntityType>
         <EntityContainer Name="MVCLabbDB" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Comments" EntityType="Self.Comments" />
@@ -154,6 +200,15 @@
           </AssociationSet>
           <AssociationSet Name="FK_Pictures_Users" Association="MVCLabbDBModel.FK_Pictures_Users">
             <End Role="Users" EntitySet="Users" />
+            <End Role="Pictures" EntitySet="Pictures" />
+          </AssociationSet>
+          <EntitySet Name="Galleries" EntityType="MVCLabbDBModel.Gallery" />
+          <AssociationSet Name="FK_Galleries_Users" Association="MVCLabbDBModel.FK_Galleries_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Gallery" EntitySet="Galleries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pictures_Galleries" Association="MVCLabbDBModel.FK_Pictures_Galleries">
+            <End Role="Gallery" EntitySet="Galleries" />
             <End Role="Pictures" EntitySet="Pictures" />
           </AssociationSet>
         </EntityContainer>
@@ -193,6 +248,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Gallery">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GalleryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="MVCLabbDBModel.FK_Galleries_Users" FromRole="Gallery" ToRole="Users" />
+          <NavigationProperty Name="Pictures" Relationship="MVCLabbDBModel.FK_Pictures_Galleries" FromRole="Gallery" ToRole="Pictures" />
+        </EntityType>
+        <Association Name="FK_Galleries_Users">
+          <End Type="MVCLabbDBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="MVCLabbDBModel.Gallery" Role="Gallery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Gallery">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pictures_Galleries">
+          <End Type="MVCLabbDBModel.Gallery" Role="Gallery" Multiplicity="1" />
+          <End Type="MVCLabbDBModel.Pictures" Role="Pictures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gallery">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Pictures">
+              <PropertyRef Name="GalleryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -215,6 +305,7 @@
           <EntitySetMapping Name="Pictures">
             <EntityTypeMapping TypeName="MVCLabbDBModel.Pictures">
               <MappingFragment StoreEntitySet="Pictures">
+                <ScalarProperty Name="GalleryID" ColumnName="GalleryID" />
                 <ScalarProperty Name="public" ColumnName="public" />
                 <ScalarProperty Name="DateEdited" ColumnName="DateEdited" />
                 <ScalarProperty Name="DatePosted" ColumnName="DatePosted" />
@@ -235,6 +326,16 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="guid" ColumnName="guid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Galleries">
+            <EntityTypeMapping TypeName="MVCLabbDBModel.Gallery">
+              <MappingFragment StoreEntitySet="Galleries">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="GalleryName" ColumnName="GalleryName" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

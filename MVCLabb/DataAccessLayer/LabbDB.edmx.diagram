@@ -11,6 +11,9 @@
         <AssociationConnector Association="MVCLabbDBModel.FK_Comments_Pictures" />
         <AssociationConnector Association="MVCLabbDBModel.FK_Comments_Users" />
         <AssociationConnector Association="MVCLabbDBModel.FK_Pictures_Users" />
+        <EntityTypeShape EntityType="MVCLabbDBModel.Gallery" Width="1.5" PointX="3" PointY="5" />
+        <AssociationConnector Association="MVCLabbDBModel.FK_Galleries_Users" />
+        <AssociationConnector Association="MVCLabbDBModel.FK_Pictures_Galleries" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

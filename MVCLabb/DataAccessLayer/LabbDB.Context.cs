@@ -28,5 +28,6 @@ namespace DataAccessLayer
         public virtual DbSet<Comments> Comments { get; set; }
         public virtual DbSet<Pictures> Pictures { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Gallery> Galleries { get; set; }
     }
 }
