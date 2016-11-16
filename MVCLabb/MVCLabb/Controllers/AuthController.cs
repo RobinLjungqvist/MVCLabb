@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace MVCLabb.Controllers
 {
+    [AllowAnonymous]
     public class AuthController : Controller
     {
         // GET: Auth
