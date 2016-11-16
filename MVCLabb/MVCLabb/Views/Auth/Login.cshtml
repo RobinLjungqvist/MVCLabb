@@ -1,7 +1,18 @@
-﻿
+﻿@model DataAccessLayer.Users
 @{
     ViewBag.Title = "Login";
 }
 
 <h2>Login</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(u => u.Email);
+    @Html.TextBoxFor(u => u.Email);
+    <br />
+    @Html.LabelFor(u => u.Password);
+    @Html.TextBoxFor(u => u.Password);
+
+    <button type="submit">Login</button>
+}
 
