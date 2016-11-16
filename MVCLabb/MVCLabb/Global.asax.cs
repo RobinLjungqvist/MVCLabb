@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using MVCLabb.App_Start;
 
 namespace MVCLabb
 {
@@ -13,6 +14,7 @@ namespace MVCLabb
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters); // Säger till att filters skall användas när appen körs.
         }
     }
 }
