@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Security.Claims;
 using DataAccessLayer;
+using MVCLabb.Models;
+using MVCLabb.Utilities;
 
 namespace MVCLabb.Controllers
 {
@@ -19,12 +21,12 @@ namespace MVCLabb.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(Users user)
+        public ActionResult Login(UserViewModel model)
         {
             Users userToLogin = null;
             using (var ctx = new MVCLabbDB())
             {
-                userToLogin = ctx.Users.FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password);
+                userToLogin = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
             }
 
             if (userToLogin != null)
@@ -46,7 +48,7 @@ namespace MVCLabb.Controllers
 
             }
             ModelState.AddModelError("","Invalid Email or Password");
-            return View(user);
+            return View(model);
         }
 
 
@@ -57,7 +59,7 @@ namespace MVCLabb.Controllers
         }
 
         [HttpPost]
-        public ActionResult Registration(Users user)
+        public ActionResult Registration(UserViewModel user)
         {
             user.guid = Guid.NewGuid();
 
@@ -65,12 +67,7 @@ namespace MVCLabb.Controllers
             {
                 using(var ctx = new MVCLabbDB())
                 {
-                    var newUser = ctx.Users.Create();
-                    newUser.Email = user.Email;
-                    newUser.FirstName = user.FirstName;
-                    newUser.LastName = user.LastName;
-                    newUser.Password = user.Password;
-                    newUser.guid = Guid.NewGuid();
+                    var newUser = EntityModelMapper.ModelToEntity(user);
                     ctx.Users.Add(newUser);
                     ctx.SaveChanges();
                 }
