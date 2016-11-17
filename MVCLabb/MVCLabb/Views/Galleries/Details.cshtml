@@ -37,7 +37,7 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Add Picture", "Create", "Pictures", Model.id)
+    @Html.ActionLink("Add Picture", "Create", "Pictures", new { GalleryID = Model.id }, null)
 </div>
 <div>
     @if (Model.Pictures != null)
@@ -45,7 +45,7 @@
         foreach (var picture in Model.Pictures)
         {
             <div id="@picture.id" class="picture-box">
-                <img src="@picture.Path" alt="@picture.Description" class="picture" />
+                <img src="@Url.Content($"{picture.Path}")" alt="@picture.Description" class="picture" width="300" />
                 @Html.ActionLink("Details", "Details", "Pictures")
             </div>
         }

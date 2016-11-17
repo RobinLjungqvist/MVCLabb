@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DataAccessLayer;
+using System.Security.Claims;
+using System.IO;
 
 namespace MVCLabb.Controllers
 {
@@ -39,9 +41,9 @@ namespace MVCLabb.Controllers
         // GET: Pictures/Create
         public ActionResult Create(int galleryID)
         {
-            ViewBag.UserID = new SelectList(db.Users, "id", "FirstName");
-            ViewBag.GalleryID = new SelectList(db.Galleries, "id", "GalleryName");
-            return View();
+            var pic = new Pictures();
+            pic.GalleryID = galleryID;
+            return View(pic);
         }
 
         // POST: Pictures/Create
@@ -49,17 +51,41 @@ namespace MVCLabb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,Name,Description,Path,UserID,DatePosted,DateEdited,public,GalleryID")] Pictures pictures)
+        public ActionResult Create([Bind(Include = "id,Name,Description,DatePosted,DateEdited,public,GalleryID")] Pictures pictures, HttpPostedFileBase photo)
         {
+            var identity = (ClaimsIdentity)User.Identity;
+            var c = identity.Claims.First(x => x.Type == ClaimTypes.Sid);
+            pictures.UserID = int.Parse(c.Value);
+            pictures.DatePosted = DateTime.Now;
+
+            string pictureFolder = Server.MapPath("../Images");
+
+            var path = string.Empty;
+            var fileName = string.Empty;
+            if (photo != null && photo.ContentLength > 0)
+            {
+
+
+                fileName = Path.GetFileName(photo.FileName);
+                path = Path.Combine(pictureFolder, fileName);
+                photo.SaveAs(path);
+
+
+            }
+
+
+            pictures.Path = "~/Images/" + fileName;
+
+
+
+
             if (ModelState.IsValid)
             {
                 db.Pictures.Add(pictures);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details","Galleries", new { GalleryID = pictures.GalleryID });
             }
-
-            ViewBag.UserID = new SelectList(db.Users, "id", "FirstName", pictures.UserID);
-            ViewBag.GalleryID = new SelectList(db.Galleries, "id", "GalleryName", pictures.GalleryID);
+            ViewBag.GalleryID = pictures.GalleryID;
             return View(pictures);
         }
 
