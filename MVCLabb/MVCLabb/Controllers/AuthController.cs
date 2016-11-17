@@ -35,7 +35,7 @@ namespace MVCLabb.Controllers
                 {
                     new Claim(ClaimTypes.Name, (userToLogin.FirstName + " " + userToLogin.LastName)),
                     new Claim(ClaimTypes.Email, userToLogin.Email),
-                    new Claim(ClaimTypes.NameIdentifier, userToLogin.guid.ToString())
+                    new Claim(ClaimTypes.Sid, userToLogin.id.ToString())
                 },
                         "ApplicationCookie");
 

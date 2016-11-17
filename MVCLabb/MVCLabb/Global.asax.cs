@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MVCLabb.App_Start;
+using System.Web.Helpers;
+using System.Security.Claims;
 
 namespace MVCLabb
 {
@@ -15,6 +17,7 @@ namespace MVCLabb
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters); // Säger till att filters skall användas när appen körs.
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
         }
     }
 }

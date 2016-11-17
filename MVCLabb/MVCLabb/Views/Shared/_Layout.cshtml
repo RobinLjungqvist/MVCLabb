@@ -20,6 +20,9 @@
                 @Html.ActionLink("PictureBox", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="@Url.Action("Index", "Galleries")">Gallery</a></li>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
                     {
