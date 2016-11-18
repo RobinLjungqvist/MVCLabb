@@ -24,7 +24,7 @@ namespace MVCLabb.Utilities
 
         }
 
-        public static UserViewModel ModelToEntity(Users entity)
+        public static UserViewModel EntityToModel(Users entity)
         {
             var model = new UserViewModel();
             model.FirstName = entity.FirstName;
@@ -59,6 +59,8 @@ namespace MVCLabb.Utilities
             model.GalleryName = entity.GalleryName;
             model.DateCreated = entity.DateCreated;
             model.UserID = entity.UserID;
+
+            model.User = EntityToModel(entity.User);
 
             return model;
         }

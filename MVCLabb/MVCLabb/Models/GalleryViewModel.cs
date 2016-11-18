@@ -17,5 +17,7 @@ namespace MVCLabb.Models
 
         public int UserID { get; set; }
 
+        public UserViewModel User { get; set; }
+
     }
 }

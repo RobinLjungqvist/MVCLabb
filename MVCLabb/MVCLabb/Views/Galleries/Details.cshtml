@@ -36,9 +36,13 @@
 
     </dl>
 </div>
-<div>
-    @Html.ActionLink("Add Picture", "Create", "Pictures", new { GalleryID = Model.id }, null)
-</div>
+
+<p>
+    @Html.ActionLink("Add Picture", "Create", "Pictures", new { GalleryID = Model.id }, null) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
 <div>
     @if (Model.Pictures != null)
     {
@@ -46,7 +50,7 @@
         {
             <div id="@picture.id" class="picture-box">
                 <img src="@Url.Content($"{picture.Path}")" alt="@picture.Description" class="picture" width="300" />
-                @Html.ActionLink("Details", "Details", "Pictures")
+                @Html.ActionLink("Details", "Details", "Pictures", new { id = picture.id }, null)
             </div>
         }
     }
@@ -55,7 +59,4 @@
         <h2>Empty Gallery</h2>
     }
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

@@ -83,7 +83,7 @@ namespace MVCLabb.Controllers
             {
                 db.Pictures.Add(pictures);
                 db.SaveChanges();
-                return RedirectToAction("Details","Galleries", new { GalleryID = pictures.GalleryID });
+                return RedirectToAction("Details","Galleries", new { id = pictures.GalleryID });
             }
             ViewBag.GalleryID = pictures.GalleryID;
             return View(pictures);
@@ -111,8 +111,9 @@ namespace MVCLabb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,Name,Description,Path,UserID,DatePosted,DateEdited,public,GalleryID")] Pictures pictures)
+        public ActionResult Edit(Pictures pictures)
         {
+            pictures.DateEdited = DateTime.Now;
             if (ModelState.IsValid)
             {
                 db.Entry(pictures).State = EntityState.Modified;

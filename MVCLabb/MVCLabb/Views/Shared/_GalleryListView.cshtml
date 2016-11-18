@@ -1,0 +1,21 @@
+﻿@model MVCLabb.Models.GalleryViewModel
+
+<div class="row">
+    <div class="col-md-2">
+        @Html.DisplayFor(m => m.GalleryName)
+    </div>
+    <div class="col-md-2">
+
+        @Html.DisplayFor(m => m.DateCreated)
+    </div>
+    <div class="col-md-2">
+        @Html.DisplayFor(m => m.User.FullName)
+    </div>
+    <div class="col-md-2">
+        @Html.DisplayFor(m => m.GalleryName)
+
+    </div>
+    <div class="col-md-2"   >
+        @Html.ActionLink("View Gallery", "View", new { id = Model.id}, null)
+    </div>
+</div>

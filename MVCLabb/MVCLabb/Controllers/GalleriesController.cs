@@ -87,7 +87,7 @@ namespace MVCLabb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,GalleryName,DateCreated,UserID")] Gallery gallery)
+        public ActionResult Edit(Gallery gallery)
         {
             if (ModelState.IsValid)
             {

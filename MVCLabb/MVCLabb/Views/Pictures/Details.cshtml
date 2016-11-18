@@ -27,11 +27,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Path)
+            <label for="image">Picture</label>
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Path)
+            <img id="image" src="@Url.Content($"{Model.Path}")" style="width: 300px;" />
         </dd>
 
         <dt>
@@ -51,11 +51,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.public)
+            @Html.DisplayNameFor(model => model.@public)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.public)
+            @Html.DisplayFor(model => model.@public)
         </dd>
 
         <dt>

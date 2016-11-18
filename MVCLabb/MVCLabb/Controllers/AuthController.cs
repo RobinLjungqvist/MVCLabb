@@ -62,21 +62,25 @@ namespace MVCLabb.Controllers
         public ActionResult Registration(UserViewModel user)
         {
             user.guid = Guid.NewGuid();
-
-            if (ModelState.IsValid)
+            using (var ctx = new MVCLabbDB())
             {
-                using(var ctx = new MVCLabbDB())
+                if (ModelState.IsValid && ctx.Users.FirstOrDefault(x=> x.Email.Contains(user.Email)) == null)
                 {
+
+
                     var newUser = EntityModelMapper.ModelToEntity(user);
                     ctx.Users.Add(newUser);
                     ctx.SaveChanges();
+                    return Redirect("/Auth/Login");
                 }
-                return Redirect("/Auth/Login");
+
             }
 
-            ModelState.AddModelError("","Something went wrong");
+
+            ModelState.AddModelError("", "Something went wrong");
             return View(user);
         }
+        
 
         public ActionResult Logout()
         {

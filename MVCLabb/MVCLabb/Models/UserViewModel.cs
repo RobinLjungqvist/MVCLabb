@@ -25,6 +25,8 @@ namespace MVCLabb.Models
         public string Password { get; set; }
         public Guid guid { get; set; }
 
+        public string FullName { get { return FirstName + " " + LastName; } }
+
 
     }
 }
