@@ -1,9 +1,14 @@
-﻿
+﻿@model List<MVCLabb.Models.PictureViewModel>
 @{
     ViewBag.Title = "Welcome!";
 }
 
-<h2>@ViewBag.Title</h2>
+<h1>@ViewBag.Title</h1>
 
-@*@Html.Partial("~/Views/Pictures/Index.cshtml")*@
+<h2>Newest pictures</h2>
+<hr />
 
+@foreach (var picture in Model)
+{
+    @Html.Partial("_GalleryPicture", picture)
+}

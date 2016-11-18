@@ -1,5 +1,7 @@
 ﻿@model PictureViewModel
 
-<div class="thumbnail">
-    <img src="@Url.Content($"{Model.Path}")" alt="@Model.Description">
+<div class="col-md-3">
+    <a href="@Url.Action("Details","Picture", Model)">
+        <img src="@Url.Content($"{Model.Path}")" alt="@Model.Description" class="thumbnail">
+    </a>
 </div>
