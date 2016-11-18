@@ -1,0 +1,16 @@
+﻿@model IEnumerable<MVCLabb.Models.PictureViewModel>
+
+<h2>@ViewBag.GalleryName</h2>
+<p>
+@Html.ActionLink("Back to List", "Index", "Gallery")
+</p>
+
+@foreach (var picture in Model)
+{
+    <a href='@Url.Action("Details","Picture", picture)'>
+        <img src="@Url.Content($"{picture.Path}")" alt="@picture.Description" style="width: 300px" />
+    </a>
+}   
+<p>
+    @Html.ActionLink("Back to List", "Index", "Gallery")
+</p>

@@ -1,0 +1,34 @@
+﻿@model MVCLabb.Models.PictureViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details | @Model.Name</h2>
+<div class="img-container">
+    <div class="image">
+        <img src="@Url.Content($"{Model.Path}")" alt="@Model.Description" class="img-responsive" />
+    </div>
+    <div class="imageinfo">
+        <div class="description">
+            @Html.LabelFor(m => m.Description)
+            @Html.DisplayFor(m => m.Description)
+        </div>
+        <p>
+            @Html.LabelFor(m => m.Uploader)
+            @Html.DisplayFor(m => m.Uploader)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.DatePosted)
+            @Html.DisplayFor(m => m.DatePosted)
+        </p>
+        <p>
+            @Html.LabelFor(m => m.DateEdited)
+            @Html.DisplayFor(m => m.DateEdited)
+        </p>
+        <p>
+            @Html.ActionLink("Back to Gallery","ViewGallery","Gallery", new { id = Model.GalleryID }, null)
+        </p>
+    </div>
+</div>
+

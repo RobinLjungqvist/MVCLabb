@@ -1,4 +1,4 @@
-﻿@model MVCLabb.Models.GalleryViewModel
+﻿@model GalleryViewModel
 
 <div class="row">
     <div class="col-md-2">
@@ -16,6 +16,6 @@
 
     </div>
     <div class="col-md-2"   >
-        @Html.ActionLink("View Gallery", "View", new { id = Model.id}, null)
+        @Html.ActionLink("View Gallery", "ViewGallery", new { id = Model.id}, null)
     </div>
 </div>

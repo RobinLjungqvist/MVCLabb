@@ -1,1 +1,5 @@
-﻿
+﻿@model PictureViewModel
+
+<div class="thumbnail">
+    <img src="@Url.Content($"{Model.Path}")" alt="@Model.Description">
+</div>
