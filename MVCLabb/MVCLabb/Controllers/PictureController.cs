@@ -47,7 +47,7 @@ namespace MVCLabb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(PictureViewModel model, HttpPostedFileBase photo)
         {
-            model.UserID = int.Parse(MVCLabb.Utilities.Extensions.GetSid(User.Identity));
+            model.UserID = int.Parse(MVCLabb.Utilities.Helpers.GetSid(User.Identity));
             model.DatePosted = DateTime.Now;
 
             string pictureFolder = Server.MapPath("../../Images");

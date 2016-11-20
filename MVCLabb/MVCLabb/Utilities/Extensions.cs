@@ -7,7 +7,7 @@ using System.Web;
 
 namespace MVCLabb.Utilities
 {
-    public static class Extensions
+    public static class Helpers
     {
         public static string GetSid(IIdentity identity)
         {

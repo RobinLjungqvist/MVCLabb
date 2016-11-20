@@ -167,11 +167,9 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
-    <Compile Include="Controllers\GalleriesController.cs" />
     <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PictureController.cs" />
-    <Compile Include="Controllers\PicturesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -194,16 +192,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Galleries\Create.cshtml" />
-    <Content Include="Views\Galleries\Delete.cshtml" />
-    <Content Include="Views\Galleries\Details.cshtml" />
-    <Content Include="Views\Galleries\Edit.cshtml" />
-    <Content Include="Views\Galleries\Index.cshtml" />
-    <Content Include="Views\Pictures\Create.cshtml" />
-    <Content Include="Views\Pictures\Delete.cshtml" />
-    <Content Include="Views\Pictures\Details.cshtml" />
-    <Content Include="Views\Pictures\Edit.cshtml" />
-    <Content Include="Views\Pictures\Index.cshtml" />
     <Content Include="Views\Gallery\Index.cshtml" />
     <Content Include="Views\Shared\_GalleryListView.cshtml" />
     <Content Include="Views\Gallery\ViewGallery.cshtml" />

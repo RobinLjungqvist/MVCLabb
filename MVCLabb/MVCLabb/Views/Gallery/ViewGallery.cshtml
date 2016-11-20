@@ -2,7 +2,7 @@
 
 <div class="row">
     <h3>@Model.GalleryName</h3>
-    @if (User.Identity.IsAuthenticated && Model.UserID.ToString() == MVCLabb.Utilities.Extensions.GetSid(User.Identity))
+    @if (User.Identity.IsAuthenticated && Model.UserID.ToString() == MVCLabb.Utilities.Helpers.GetSid(User.Identity))
     {
 
         <p>

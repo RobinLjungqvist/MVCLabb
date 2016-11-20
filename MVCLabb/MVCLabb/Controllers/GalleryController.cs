@@ -66,7 +66,7 @@ namespace MVCLabb.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var identity = (ClaimsIdentity)User.Identity;
-                int? userID = int.Parse(Extensions.GetSid(identity));
+                int? userID = int.Parse(Helpers.GetSid(identity));
                 if (userID != null)
                 {
                     model.DateCreated = DateTime.Now;
