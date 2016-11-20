@@ -1,0 +1,28 @@
+﻿@model MVCLabb.Models.CommentViewModel
+
+@if (User.Identity.IsAuthenticated)
+{
+    using (Html.BeginForm("NewComment","Comment", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <p>
+            @Html.ValidationSummary()
+            @Html.HiddenFor(m=> m.PictureID)
+        </p>
+        <h3>Post comment</h3>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div>
+                            @Html.LabelFor(m => m.Title)
+                            @Html.EditorFor(m => m.Title)
+                            @Html.LabelFor(m => m.Comment)
+                            @Html.EditorFor(m => m.Comment)
+                            
+                        </div>
+                        <div>
+                            <input type="submit" value="Submit" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+    }
+}

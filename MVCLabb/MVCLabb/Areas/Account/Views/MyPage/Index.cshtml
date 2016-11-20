@@ -1,13 +1,25 @@
 ﻿@model MVCLabb.Models.UserViewModel
+
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "User Information";
 }
 
-<h2>Registration</h2>
+<h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "MyPage", new { Area = "Account" }))
 {
     @Html.AntiForgeryToken()
+
+    <p>
+        @Html.ValidationSummary(true)
+        @if (ViewData["Message"] != null)
+        {
+            @ViewData["Message"]
+        }
+    </p>
+    @Html.HiddenFor(m => m.guid)
+    @Html.HiddenFor(m => m.id)
+
     <div class="form-group">
         @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
         <div>
@@ -33,12 +45,13 @@
 
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "control-label" })
-        <div>
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <button type="submit" classs="btn btn-default">Register</button>
+    @*<div class="form-group">
+            <label>Re-Enter Password</label>
+            <div>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+    <button type="submit" classs="btn btn-default">Update</button>
 }
+

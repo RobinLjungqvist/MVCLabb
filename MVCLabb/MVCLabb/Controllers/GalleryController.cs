@@ -4,6 +4,7 @@ using MVCLabb.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -50,6 +51,34 @@ namespace MVCLabb.Controllers
 
             return RedirectToAction("Index");
 
+        }
+
+        public ActionResult Create()
+        {
+
+            return View(new GalleryViewModel());
+        }
+        [HttpPost]
+        public ActionResult Create(GalleryViewModel model)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var identity = (ClaimsIdentity)User.Identity;
+                int? userID = IdentityHandling.GetUserID(identity);
+                if (userID != null)
+                {
+                    model.DateCreated = DateTime.Now;
+                    model.UserID = (int)userID;
+                    using (var ctx = new MVCLabbDB())
+                    {
+                        var newGallery = EntityModelMapper.ModelToEntity(model);
+                        ctx.Galleries.Add(newGallery);
+                        ctx.SaveChanges();
+                    }
+                }
+                ViewData["GalleryInfo"] = "Gallery Created";
+            }
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }

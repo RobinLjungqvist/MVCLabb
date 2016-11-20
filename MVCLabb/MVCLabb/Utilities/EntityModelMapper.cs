@@ -118,9 +118,7 @@ namespace MVCLabb.Utilities
             entity.Comment = model.Comment;
             entity.id = model.id;
             entity.PictureID = model.PictureID;
-            entity.Pictures = ModelToEntity(model.Picture);
             entity.UserID = model.UserID;
-            entity.Users = ModelToEntity(model.User);
             entity.Title = model.Title;
             entity.DateEdited = model.DateEdited;
             entity.DatePosted = model.DateEdited;

@@ -3,13 +3,12 @@
 @{
     ViewBag.Title = "Details";
 }
-
 <h2>Details | @Model.Name</h2>
-<div class="img-container">
-    <div class="image">
+<div class="img-container row">
+    <div class="image col-md-6">
         <img src="@Url.Content($"{Model.Path}")" alt="@Model.Description" class="img-responsive" />
     </div>
-    <div class="imageinfo">
+    <div class="imageinfo col-md-6">
         <div class="description">
             @Html.LabelFor(m => m.Description)
             @Html.DisplayFor(m => m.Description)
@@ -26,9 +25,26 @@
             @Html.LabelFor(m => m.DateEdited)
             @Html.DisplayFor(m => m.DateEdited)
         </p>
-        <p>
-            @Html.ActionLink("Back to Gallery","ViewGallery","Gallery", new { id = Model.GalleryID }, null)
-        </p>
+        <hr />
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.Action("newComment", "Comment", Model)
+        }
+        else
+        {
+            @Html.ActionLink("Login to post comments","Login","Auth")
+        }
     </div>
 </div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        @Html.Action("Comments", "Comment", Model)
+
+    </div>
+    <p>
+        @Html.ActionLink("Back to Gallery", "ViewGallery", "Gallery", new { id = Model.GalleryID }, null)
+    </p>
+</div>
+
 

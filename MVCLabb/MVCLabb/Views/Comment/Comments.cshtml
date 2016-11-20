@@ -1,0 +1,22 @@
+﻿@model IEnumerable<MVCLabb.Models.CommentViewModel>
+
+@foreach (var comment in Model)
+{
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>@comment.Title</h4>
+
+            </div>
+            <div class="panel-body">
+                <p>
+                    @comment.Comment
+                </p>
+            </div>
+            <div class="panel-footer">
+                <strong>@comment.User.FullName</strong> <span class="text-muted">commented @comment.DatePosted</span>
+            </div>
+        </div>
+    </div>
+}
+

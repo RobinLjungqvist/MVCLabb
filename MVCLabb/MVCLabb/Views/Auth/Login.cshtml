@@ -7,6 +7,10 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
+    <p>
+        @Html.ValidationSummary()
+    </p>
     <div class="form-group">
         @Html.LabelFor(u => u.Email, new { @class = "control-label" })
         <div>

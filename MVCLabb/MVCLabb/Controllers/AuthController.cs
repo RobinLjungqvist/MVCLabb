@@ -59,6 +59,7 @@ namespace MVCLabb.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Registration(UserViewModel user)
         {
             user.guid = Guid.NewGuid();
