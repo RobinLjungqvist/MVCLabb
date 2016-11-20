@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace MVCLabb.Controllers
 {
-    /*[AllowAnonymous] */// Låter anonyma användare se sidan utan att vara authentiserade.
+    [AllowAnonymous] /// Låter anonyma användare se sidan utan att vara authentiserade.
     public class HomeController : Controller
     {
         // GET: Home

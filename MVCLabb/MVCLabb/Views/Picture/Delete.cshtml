@@ -1,4 +1,4 @@
-﻿@model DataAccessLayer.Pictures
+﻿@model MVCLabb.Models.PictureViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -26,14 +26,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Path)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Path)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.DatePosted)
         </dt>
 
@@ -50,32 +42,18 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.@public)
+            @Html.DisplayNameFor(model => model.IsPublicPicture)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.@public)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Users.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Users.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Gallery.GalleryName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Gallery.GalleryName)
+            @Html.DisplayFor(model => model.IsPublicPicture)
         </dd>
 
     </dl>
+    </div>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("Delete", "Picture", new { id = Model.id, GalleryID = Model.GalleryID }, FormMethod.Post))
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
@@ -83,4 +61,4 @@
             @Html.ActionLink("Back to List", "Index")
         </div>
     }
-</div>
+

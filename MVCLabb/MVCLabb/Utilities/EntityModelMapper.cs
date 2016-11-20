@@ -121,7 +121,7 @@ namespace MVCLabb.Utilities
             entity.UserID = model.UserID;
             entity.Title = model.Title;
             entity.DateEdited = model.DateEdited;
-            entity.DatePosted = model.DateEdited;
+            entity.DatePosted = model.DatePosted;
 
             return entity;
         }
@@ -137,7 +137,7 @@ namespace MVCLabb.Utilities
             model.User = EntityToModel(entity.Users);
             model.Title = entity.Title;
             model.DateEdited = entity.DateEdited;
-            model.DatePosted = entity.DateEdited;
+            model.DatePosted = entity.DatePosted;
 
 
 

@@ -25,7 +25,13 @@
             @Html.LabelFor(m => m.DateEdited)
             @Html.DisplayFor(m => m.DateEdited)
         </p>
-        <hr />
+        @if (User.Identity.IsAuthenticated && Model.UserID.ToString() == MVCLabb.Utilities.Extensions.GetSid(User.Identity))
+        {
+            <p>
+                @Html.ActionLink("Edit","Edit","Picture", Model, null) |
+                @Html.ActionLink("Delete", "Delete", "Picture", Model, null)
+            </p>
+        }
         @if (User.Identity.IsAuthenticated)
         {
             @Html.Action("newComment", "Comment", Model)
@@ -36,9 +42,11 @@
         }
     </div>
 </div>
-<hr />
 <div class="row">
+    
     <div class="col-md-12">
+        <h3>Comments</h3>
+        <hr />
         @Html.Action("Comments", "Comment", Model)
 
     </div>

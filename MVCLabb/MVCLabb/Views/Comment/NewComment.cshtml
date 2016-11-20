@@ -2,25 +2,32 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    using (Html.BeginForm("NewComment","Comment", FormMethod.Post))
+    using (Html.BeginForm("NewComment", "Comment", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         <p>
             @Html.ValidationSummary()
-            @Html.HiddenFor(m=> m.PictureID)
+            @Html.HiddenFor(m => m.PictureID)
         </p>
         <h3>Post comment</h3>
                 <div class="form-horizontal">
                     <div class="form-group">
                         <div>
-                            @Html.LabelFor(m => m.Title)
-                            @Html.EditorFor(m => m.Title)
+                            <p>
+                                @Html.LabelFor(m => m.Title)
+                                @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Title)
+
+
+                            </p>
+                            <p>
                             @Html.LabelFor(m => m.Comment)
-                            @Html.EditorFor(m => m.Comment)
-                            
+                            @Html.TextAreaFor(m => m.Comment, 5, 50, new { @class = "form-control", style="resize: none;" })
+                            @Html.ValidationMessageFor(m => m.Comment)
+                            </p>
                         </div>
                         <div>
-                            <input type="submit" value="Submit" class="btn btn-default" />
+                            <input type="submit" value="Submit" class="btn btn-default"/>
                         </div>
                     </div>
                 </div>

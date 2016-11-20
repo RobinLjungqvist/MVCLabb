@@ -4,14 +4,16 @@
 }
 @if (User.Identity.IsAuthenticated)
 {
-    <p>
-        @Html.ActionLink("Add new gallery", "Create", "Gallery")
+    <div>
+        <h3>  @Html.ActionLink("Add new gallery", "Create", "Gallery")</h3>
+        <p>
 
-        @if(ViewData["GalleryInfo"] != null)
-        {
-            @ViewData["GalleryInfo"]
-        }
-    </p>
+            @if (ViewData["GalleryInfo"] != null)
+            {
+                @ViewData["GalleryInfo"]
+            }
+        </p>
+    </div>
 }
 <h2>@ViewBag.Title</h2>
 <div class="row">

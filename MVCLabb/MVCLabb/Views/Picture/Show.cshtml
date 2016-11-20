@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<MVCLabb.Models.PictureViewModel>
 
-<h2>@ViewBag.GalleryName</h2>
-<ul>
-    <li> @Html.ActionLink("Back to List", "Index", "Gallery") </li>
-</ul>
+    <p>
+    @Html.ActionLink("Back to List", "Index", "Gallery")
+    </p>
 @if (Model.Count() != 0)
     {
         

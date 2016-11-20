@@ -1,6 +1,15 @@
 ﻿@model GalleryViewModel
 
 <div class="row">
-    
-        @Html.Action("Show", "Picture", Model);
+    <h3>@Model.GalleryName</h3>
+    @if (User.Identity.IsAuthenticated && Model.UserID.ToString() == MVCLabb.Utilities.Extensions.GetSid(User.Identity))
+    {
+
+        <p>
+            @Html.ActionLink("Add Picture", "Create", "Picture", Model, null)
+        </p>
+    }
+    <hr />
+
+    @Html.Action("Show", "Picture", Model);
 </div>

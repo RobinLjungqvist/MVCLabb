@@ -53,9 +53,7 @@ namespace MVCLabb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,Name,Description,DatePosted,DateEdited,public,GalleryID")] Pictures pictures, HttpPostedFileBase photo)
         {
-            var identity = (ClaimsIdentity)User.Identity;
-            var c = identity.Claims.First(x => x.Type == ClaimTypes.Sid);
-            pictures.UserID = int.Parse(c.Value);
+            pictures.UserID = int.Parse(MVCLabb.Utilities.Extensions.GetSid(User.Identity));
             pictures.DatePosted = DateTime.Now;
 
             string pictureFolder = Server.MapPath("../Images");

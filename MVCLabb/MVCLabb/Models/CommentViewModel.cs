@@ -18,7 +18,10 @@ namespace MVCLabb.Models
         public string Comment { get; set; }
         public int UserID { get; set; }
         public int PictureID { get; set; }
+
+        [Display(Name = "Posted")]
         public DateTime? DatePosted { get; set; }
+        [Display(Name = "Edited")]
         public DateTime? DateEdited { get; set; }
 
         public PictureViewModel Picture { get; set; }

@@ -10,9 +10,11 @@ using System.Web.Mvc;
 
 namespace MVCLabb.Controllers
 {
+    [Authorize]
     public class GalleryController : Controller
     {
         // GET: Gallery
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var galleries = new List<GalleryViewModel>();
@@ -29,7 +31,7 @@ namespace MVCLabb.Controllers
             }
             return View(galleries);
         }
-
+        [AllowAnonymous]
         public ActionResult ViewGallery(int? id)
         {
             if(id == null)
@@ -64,7 +66,7 @@ namespace MVCLabb.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var identity = (ClaimsIdentity)User.Identity;
-                int? userID = IdentityHandling.GetUserID(identity);
+                int? userID = int.Parse(Extensions.GetSid(identity));
                 if (userID != null)
                 {
                     model.DateCreated = DateTime.Now;

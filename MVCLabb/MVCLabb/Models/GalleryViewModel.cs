@@ -13,6 +13,7 @@ namespace MVCLabb.Models
         [StringLength(50, MinimumLength = 5, ErrorMessage = "Minimum 5, Maximum 50 Characters")]
         public string GalleryName { get; set; }
 
+        [Display(Name = "Created")]
         public DateTime DateCreated { get; set; }
 
         public int UserID { get; set; }
