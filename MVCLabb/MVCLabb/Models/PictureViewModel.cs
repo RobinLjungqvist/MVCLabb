@@ -22,6 +22,7 @@ namespace MVCLabb.Models
         [Display(Name = "Edited")]
         public DateTime? DateEdited { get; set; }
         [Required]
+        [Display(Name = "Public")]
         public bool IsPublicPicture { get; set; }
         public int GalleryID { get; set; }
         public string Uploader { get; set; }

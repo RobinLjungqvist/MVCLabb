@@ -9,7 +9,7 @@
 {
     @Html.AntiForgeryToken()
     <p>
-        @Html.ValidationSummary()
+        @Html.ValidationSummary(true)
     </p>
     <div class="form-group">
         @Html.LabelFor(u => u.Email, new { @class = "control-label" })

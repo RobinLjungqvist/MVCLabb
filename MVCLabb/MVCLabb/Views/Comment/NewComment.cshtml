@@ -16,14 +16,14 @@
                             <p>
                                 @Html.LabelFor(m => m.Title)
                                 @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Title)
+                                @Html.ValidationMessageFor(m => m.Title,"", new { @class = "text-danger" })
 
 
                             </p>
                             <p>
                             @Html.LabelFor(m => m.Comment)
                             @Html.TextAreaFor(m => m.Comment, 5, 50, new { @class = "form-control", style="resize: none;" })
-                            @Html.ValidationMessageFor(m => m.Comment)
+                            @Html.ValidationMessageFor(m => m.Comment, "" , new { @class = "text-danger" })
                             </p>
                         </div>
                         <div>

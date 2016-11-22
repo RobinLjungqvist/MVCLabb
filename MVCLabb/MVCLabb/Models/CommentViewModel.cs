@@ -9,10 +9,10 @@ namespace MVCLabb.Models
     public class CommentViewModel
     {
         public int id { get; set; }
-        [Required(ErrorMessage = "Title Required")]
+        [Required(ErrorMessage = "Required")]
         [StringLength(50)]
         public string Title { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Required")]
         [StringLength(50,ErrorMessage ="Max 140 Characters!")]
         [DataType(DataType.MultilineText)]
         public string Comment { get; set; }

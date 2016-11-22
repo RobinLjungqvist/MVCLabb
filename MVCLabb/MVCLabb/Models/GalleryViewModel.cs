@@ -11,6 +11,7 @@ namespace MVCLabb.Models
         public int id { get; set; }
         [Required(ErrorMessage = "Required")]
         [StringLength(50, MinimumLength = 5, ErrorMessage = "Minimum 5, Maximum 50 Characters")]
+        [Display(Name = "Gallery Name")]
         public string GalleryName { get; set; }
 
         [Display(Name = "Created")]

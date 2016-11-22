@@ -42,6 +42,8 @@ namespace MVCLabb.Controllers
                 var ctx = Request.GetOwinContext();
                 var authManager = ctx.Authentication;
 
+                
+
                 authManager.SignIn(identity);
 
                 return Redirect("/Home/Index");

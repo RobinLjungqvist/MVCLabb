@@ -10,16 +10,18 @@ using System.Web.Mvc;
 
 namespace MVCLabb.Controllers
 {
+    [Authorize]
     public class CommentController : Controller
     {
         // GET: Comment
+        [AllowAnonymous]
         public ActionResult Comments(PictureViewModel picture)
         {
             var comments = new List<CommentViewModel>();
 
             using(var ctx = new MVCLabbDB())
             {
-                var commentsFromDB = ctx.Comments.Where(c => c.PictureID == picture.id);
+                var commentsFromDB = ctx.Comments.Where(c => c.PictureID == picture.id).OrderByDescending(c => c.DatePosted);
                 foreach (var comment in commentsFromDB)
                 {
                     comments.Add(EntityModelMapper.EntityToModel(comment));

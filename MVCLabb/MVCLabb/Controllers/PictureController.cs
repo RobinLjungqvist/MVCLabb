@@ -19,7 +19,7 @@ namespace MVCLabb.Controllers
         public ActionResult Show(GalleryViewModel model)
         {
             var pictures = new List<PictureViewModel>();
-            using(var ctx = new MVCLabbDB())
+            using (var ctx = new MVCLabbDB())
             {
                 var picturesFromDB = ctx.Pictures.Where(p => p.GalleryID == model.id).ToList();
                 foreach (var pic in picturesFromDB)
@@ -74,7 +74,7 @@ namespace MVCLabb.Controllers
             if (ModelState.IsValid)
             {
                 var newPicture = EntityModelMapper.ModelToEntity(model);
-                using(var ctx = new MVCLabbDB())
+                using (var ctx = new MVCLabbDB())
                 {
                     ctx.Pictures.Add(newPicture);
                     ctx.SaveChanges();
@@ -112,7 +112,7 @@ namespace MVCLabb.Controllers
                         }
                     }
                 }
-                return RedirectToAction("ViewGallery", "Gallery", new { id = GalleryID }); 
+                return RedirectToAction("ViewGallery", "Gallery", new { id = GalleryID });
             }
             return Redirect(Request.UrlReferrer.ToString());
         }
@@ -127,7 +127,7 @@ namespace MVCLabb.Controllers
         [ActionName("Edit")]
         public ActionResult EditPicture(PictureViewModel model, HttpPostedFileBase file)
         {
-            
+
             string pictureFolder = Server.MapPath("../../Images");
 
             var path = string.Empty;
@@ -148,22 +148,27 @@ namespace MVCLabb.Controllers
                 model.Path = "~/Images/" + fileName;
             }
             model.DateEdited = DateTime.Now;
-            using(var ctx = new MVCLabbDB())
+            if (ModelState.IsValid)
             {
-                var picToUpdate = ctx.Pictures.Find(model.id);
-                picToUpdate.Name = model.Name;
-                picToUpdate.Description = model.Description;
-                picToUpdate.Path = model.Path;
-                picToUpdate.DateEdited = model.DateEdited;
-                
 
-                ctx.Entry(picToUpdate).State = EntityState.Modified;
-                ctx.SaveChanges();
+                using (var ctx = new MVCLabbDB())
+                {
+                    var picToUpdate = ctx.Pictures.Find(model.id);
+                    picToUpdate.Name = model.Name;
+                    picToUpdate.Description = model.Description;
+                    picToUpdate.Path = model.Path;
+                    picToUpdate.DateEdited = model.DateEdited;
 
 
+                    ctx.Entry(picToUpdate).State = EntityState.Modified;
+                    ctx.SaveChanges();
+                }
+                return RedirectToAction("Details", "Picture", model);
             }
-
+            ModelState.AddModelError("", "Couldn't update information");
             return View(model);
+
         }
+
     }
 }
