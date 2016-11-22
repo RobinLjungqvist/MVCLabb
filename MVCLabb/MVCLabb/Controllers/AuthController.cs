@@ -35,7 +35,9 @@ namespace MVCLabb.Controllers
                 {
                     new Claim(ClaimTypes.Name, (userToLogin.FirstName + " " + userToLogin.LastName)),
                     new Claim(ClaimTypes.Email, userToLogin.Email),
-                    new Claim(ClaimTypes.Sid, userToLogin.id.ToString())
+                    new Claim(ClaimTypes.Sid, userToLogin.id.ToString()),
+                    new Claim(ClaimTypes.Role, UserIsAdmin(userToLogin) ? "Admin" : "User")
+                    
                 },
                         "ApplicationCookie");
 
@@ -92,6 +94,17 @@ namespace MVCLabb.Controllers
 
             authManager.SignOut("ApplicationCookie");
             return RedirectToAction("Login", "Auth");
+        }
+        private bool UserIsAdmin(Users user)
+        {
+
+            if(user.guid == Guid.Parse("{3027308A-5C93-4694-869A-BA40F042F94C}"))
+            {
+                return true;
+            }
+
+            return false; 
+
         }
     }
 }

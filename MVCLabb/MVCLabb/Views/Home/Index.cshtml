@@ -5,6 +5,11 @@
 
 <h1>@ViewBag.Title</h1>
 
+@if (User.IsInRole("Admin"))
+{
+    <h1>Hey Admin!</h1>
+}
+
 <h2>Newest pictures</h2>
 <hr />
 
