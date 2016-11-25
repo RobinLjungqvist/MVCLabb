@@ -26,7 +26,7 @@ namespace MVCLabb.Models
         [Required(ErrorMessage = "Required")]
         [StringLength(20, MinimumLength = 8, ErrorMessage = "Max 20 and Minimum 8 Characters")]
         [DataType(DataType.Password)]
-        [RegularExpression("^((?=.*[a-z])(?=.*[A-Z])(?=.*\\d)).+$", ErrorMessage = "Password must contain a combination of upper and lowercase and atleast one number.")]
+        [RegularExpression("^((?=.*[a-z])(?=.*[A-Z])(?=.*\\d)).+$", ErrorMessage = "Password must contain a combination of upper and lowercase and atleast one number and minimum 8 characters.")]
         public string Password { get; set; }
         public Guid guid { get; set; }
 

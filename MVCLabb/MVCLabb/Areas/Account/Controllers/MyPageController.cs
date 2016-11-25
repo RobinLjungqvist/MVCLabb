@@ -3,6 +3,7 @@ using MVCLabb.Models;
 using MVCLabb.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -47,6 +48,7 @@ namespace MVCLabb.Areas.Account.Controllers
            
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(UserViewModel model)
         {
             var identity = (ClaimsIdentity)User.Identity;
@@ -82,9 +84,44 @@ namespace MVCLabb.Areas.Account.Controllers
                 ModelState.AddModelError("", "Couldn't update information");
                 return View(model);
             }
-            ModelState.AddModelError("Password", "Reenterpassword");
             return View(model);
 
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(string oldPassword, string Password, string newPassword2)
+        {
+            string success = string.Empty;
+
+            if(Password != newPassword2 || Password == string.Empty )
+            {
+                success = "new passwords didn't match.";
+                return Json(success);
+            }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                using (var ctx = new MVCLabbDB())
+                {
+                    int userID = int.Parse(Helpers.GetSid(User.Identity));
+                    var userFromDB = ctx.Users.FirstOrDefault(x => x.id == userID);
+
+                    if(userFromDB.Password == oldPassword)
+                    {
+                        userFromDB.Password = Password;
+                        ctx.Entry(userFromDB).State = EntityState.Modified;
+                        ctx.SaveChanges();
+                        success = "Update successful";
+                        return Json(success);
+                    }
+                    success = "Wrong password";
+                }
+
+            }
+
+                success = success + " update failed.";
+
+            return Content(success);
         }
     }
 }

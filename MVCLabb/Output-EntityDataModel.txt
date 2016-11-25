@@ -1,0 +1,3 @@
+﻿Generated model file: LabbDB.edmx.
+Loading metadata from the database took 00:00:01.3372986.
+Generating the model took 00:00:02.9609628.
