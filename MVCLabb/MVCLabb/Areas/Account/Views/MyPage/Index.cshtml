@@ -6,19 +6,19 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("Index", "MyPage", new { Area = "Account" }))
+@using (Html.BeginForm("Index", "MyPage", new { Area = "Account" }, FormMethod.Post, new { id = "userinfoform" }))
 {
-    @Html.AntiForgeryToken()
+                @Html.AntiForgeryToken()
 
-    <p>
-        @Html.ValidationSummary(true)
+                <p>
+                    @Html.ValidationSummary(true)
         @if (ViewData["Message"] != null)
         {
-            @ViewData["Message"]
+                    @ViewData["Message"]
         }
     </p>
     @Html.HiddenFor(m => m.guid)
-    @Html.HiddenFor(m => m.id)
+    @Html.HiddenFor(m => m.id, new { id = "userID" })
 
     <div class="form-group">
         @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })

@@ -5,7 +5,7 @@
 @if (User.Identity.IsAuthenticated)
 {
     <div>
-        <h3>  @Html.ActionLink("Add new gallery", "Create", "Gallery")</h3>
+        <h3>  @Html.ActionLink("Add new gallery", "Create", "Gallery", null, new { id="creategallerybtn" })</h3>
         <p>
 
             @if (ViewData["GalleryInfo"] != null)
@@ -34,8 +34,12 @@
         @Html.Label("Navigation")
     </div>
 </div>
-@foreach (var g in Model)
-{
-    
-    @Html.Partial("_GalleryListView", g)
+<div id="gallerylistcontainer">
+
+    @Html.Action("GalleryList")
+    @*@Html.Partial("_GalleryListView", gallery)*@
+
+</div>
+@section scripts{
+<script src="~/Scripts/gallerylist.js"></script>
 }

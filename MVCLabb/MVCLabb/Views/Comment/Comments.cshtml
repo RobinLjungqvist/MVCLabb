@@ -15,6 +15,15 @@
                     @comment.Comment
                 </p>
             </div>
+            @if (User.Identity.IsAuthenticated && comment.UserID.ToString() == Helpers.GetSid(User.Identity))
+            {
+                <div class="panel-footer text-muted">
+                    @Html.ActionLink("Delete","Delete","Comment", new {}, new { @class = "deletecommentbtn text-muted", id = comment.id })
+                </div>
+                <div id="test">
+
+                </div>
+            }
         </div>
     </div>
 }

@@ -1,21 +1,28 @@
-﻿@model GalleryViewModel
+﻿@model List<GalleryViewModel>
 
+@foreach (var gallery in Model)
+{
 <div class="row ">
     <div class="col-md-2">
-        @Html.DisplayFor(m => m.GalleryName)
+        @Html.DisplayFor(m => gallery.GalleryName)
     </div>
     <div class="col-md-2">
 
-        @Html.DisplayFor(m => m.DateCreated)
+        @Html.DisplayFor(m => gallery.DateCreated)
     </div>
     <div class="col-md-2">
-        @Html.DisplayFor(m => m.User.FullName)
+        @Html.DisplayFor(m => gallery.User.FullName)
     </div>
     <div class="col-md-2">
-        @Html.DisplayFor(m => m.GalleryName)
+        @Html.DisplayFor(m => gallery.GalleryName)
 
     </div>
-    <div class="col-md-2"   >
-        @Html.ActionLink("View Gallery", "ViewGallery", new { id = Model.id}, null)
+    <div class="col-md-2">
+        @Html.ActionLink("View Gallery", "ViewGallery", new { id = gallery.id }, null)
+        @if (User.Identity.IsAuthenticated && gallery.UserID.ToString() == Helpers.GetSid(User.Identity))
+        {
+            @Html.ActionLink("Delete","Delete","Gallery", new { galleryID = gallery.id}, new { @class = "gallerydeletebtn", GalleryID = gallery.id })
+        }
     </div>
 </div>
+}

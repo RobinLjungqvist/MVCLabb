@@ -72,19 +72,20 @@ namespace MVCLabb.Areas.Account.Controllers
 
                         ViewData["Message"] = "User information updated";
 
-                        return View(model);
+                        return Content("Updated user information!");
                     }
                     else
                     {
-                        ModelState.AddModelError("", "The email is already registered.");
                         model.Email = user.Email;
+                        return Content("The email is already registered.");
+                        
                     }
 
                 }
-                ModelState.AddModelError("", "Couldn't update information");
-                return View(model);
+                
+
             }
-            return View(model);
+            return Content("Couldn't update information");
 
         }
         [HttpPost]
@@ -122,6 +123,23 @@ namespace MVCLabb.Areas.Account.Controllers
                 success = success + " update failed.";
 
             return Content(success);
+        }
+
+        public ActionResult CheckEmailTaken(string email)
+        {
+            using(var ctx = new MVCLabbDB())
+            {
+                var emails = ctx.Users.Select(x => x.Email);
+
+                if (emails.Contains(email))
+                {
+                    return Content("true");
+                }
+                else
+                {
+                    return Content("false");
+                }
+            }
         }
     }
 }

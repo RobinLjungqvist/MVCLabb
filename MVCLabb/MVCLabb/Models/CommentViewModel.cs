@@ -10,10 +10,10 @@ namespace MVCLabb.Models
     {
         public int id { get; set; }
         [Required(ErrorMessage = "Required")]
-        [StringLength(50)]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Minimum 3, Maximum 50 characters.")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Required")]
-        [StringLength(50,ErrorMessage ="Max 140 Characters!")]
+        [StringLength(140,ErrorMessage ="Max 140 Characters!")]
         [DataType(DataType.MultilineText)]
         public string Comment { get; set; }
         public int UserID { get; set; }

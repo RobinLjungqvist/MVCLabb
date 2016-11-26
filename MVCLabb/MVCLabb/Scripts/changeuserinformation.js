@@ -3,8 +3,30 @@ var newPW = $("#newPW");
 var newPW2 = $("#newPW2");
 var message = $("#message");
 var compareresult = $("#compareresult");
+var emailFormControl = $('#Email');
+var userinfoForm = $('#userinfoform');
+var oldemail = "";
+$('document').ready(function (e) {
+
+    oldemail = userinfoForm.find('#Email').val();
+});
+
+userinfoForm.submit(function (e) {
+    e.preventDefault();
+    userinfoForm.validate();
+    $.post("/Account/MyPage/Index", userinfoForm.serialize(), function (data) {
+        swal(data);
+        if (data === "The email is already registered.") {
+            emailFormControl.val(oldemail);
+
+        }
+        else {
+            oldemail = emailFormControl.val();
+        }
+    });
 
 
+});
 
 
 

@@ -78,9 +78,62 @@ namespace MVCLabb.Controllers
                         ctx.SaveChanges();
                     }
                 }
-                ViewData["GalleryInfo"] = "Gallery Created";
+                return RedirectToAction("Index", "Gallery");
             }
             return Redirect(Request.UrlReferrer.ToString());
+        }
+        [HttpPost]
+        public ActionResult Delete(int galleryID)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var userID = int.Parse(Helpers.GetSid(User.Identity));
+
+                using (var ctx = new MVCLabbDB())
+                {
+                    var galleryToRemove = ctx.Galleries.Find(galleryID);
+
+                    if (galleryToRemove.UserID == userID)
+                    {
+
+                        var picturesToRemove = ctx.Pictures.Where(p => p.UserID == userID);
+
+                        if(picturesToRemove != null)
+                        {
+                            foreach (var picture in picturesToRemove)
+                            {
+                                var commentsToRemove = ctx.Comments.Where(c => c.PictureID == picture.id);
+                                ctx.Comments.RemoveRange(commentsToRemove);
+                            }
+                            
+
+                            ctx.Pictures.RemoveRange(picturesToRemove);
+
+                        }
+
+
+                        ctx.Galleries.Remove(galleryToRemove);
+                        ctx.SaveChanges();
+                        return Content("Gallery deleted!");
+                    }
+                }
+            }
+            return Content("Couldn't delete gallery");
+            
+        }
+
+        public ActionResult GalleryList()
+        {
+            var galleryList = new List<GalleryViewModel>();
+            using (var ctx = new MVCLabbDB())
+            {
+                foreach (var gallery in ctx.Galleries)
+                {
+                    galleryList.Add(EntityModelMapper.EntityToModel(gallery));
+                }
+            }
+
+            return PartialView("_GalleryListView", galleryList);
         }
     }
 }

@@ -15,20 +15,20 @@ namespace MVCLabb.Controllers
     {
         // GET: Comment
         [AllowAnonymous]
-        public ActionResult Comments(PictureViewModel picture)
+        public ActionResult Comments(int pictureID)
         {
             var comments = new List<CommentViewModel>();
 
             using(var ctx = new MVCLabbDB())
             {
-                var commentsFromDB = ctx.Comments.Where(c => c.PictureID == picture.id).OrderByDescending(c => c.DatePosted);
+                var commentsFromDB = ctx.Comments.Where(c => c.PictureID == pictureID).OrderByDescending(c => c.DatePosted);
                 foreach (var comment in commentsFromDB)
                 {
                     comments.Add(EntityModelMapper.EntityToModel(comment));
                 }
             }
 
-            return View(comments);
+            return PartialView(comments);
         }
 
         public ActionResult NewComment(PictureViewModel picture)
@@ -60,12 +60,33 @@ namespace MVCLabb.Controllers
                 {
                     ctx.Comments.Add(newComment);
                     ctx.SaveChanges();
-                } 
+                }
+                return Content("Comment added");
 
             }
 
-            return Redirect(Request.UrlReferrer.ToString());
+            return Content("Couldn't add comment");
         }
+        [HttpPost]
+        public ActionResult Delete(int commentID)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
 
+
+                using (var ctx = new MVCLabbDB())
+                {
+                    var commentToRemove = ctx.Comments.Find(commentID);
+                    if (commentToRemove != null)
+                    {
+                        ctx.Comments.Remove(commentToRemove);
+                        ctx.SaveChanges();
+                    }
+                    return Content("Comment was removed.");
+                }
+
+            }
+            return Content("Couldn't remove comment.");
+        }
     }
 }

@@ -6,6 +6,7 @@
 <h2>Details | @Model.Name</h2>
 <div class="img-container row">
     <div class="image col-md-6">
+        @Html.HiddenFor(m => m.id, new { id = "pictureID" })
         <img src="@Url.Content($"{Model.Path}")" alt="@Model.Description" class="img-responsive" />
     </div>
     <div class="imageinfo col-md-6">
@@ -28,7 +29,7 @@
         @if (User.Identity.IsAuthenticated && Model.UserID.ToString() == MVCLabb.Utilities.Helpers.GetSid(User.Identity))
         {
             <p>
-                @Html.ActionLink("Edit","Edit","Picture", Model, null) |
+                @Html.ActionLink("Edit", "Edit", "Picture", Model, null) |
                 @Html.ActionLink("Delete", "Delete", "Picture", Model, null)
             </p>
         }
@@ -38,21 +39,27 @@
         }
         else
         {
-            @Html.ActionLink("Login to post comments","Login","Auth")
+            @Html.ActionLink("Login to post comments", "Login", "Auth")
         }
     </div>
 </div>
 <div class="row">
-    
+
     <div class="col-md-12">
         <h3>Comments</h3>
+        <span>
+            @Html.ActionLink("Back to Gallery", "ViewGallery", "Gallery", new { id = Model.GalleryID }, null)
+        </span>
         <hr />
-        @Html.Action("Comments", "Comment", Model)
-
+        <div id="commentcontainer">
+            @Html.Action("Comments", "Comment", new { pictureID = Model.id })
+        </div>
     </div>
-    <p>
-        @Html.ActionLink("Back to Gallery", "ViewGallery", "Gallery", new { id = Model.GalleryID }, null)
-    </p>
+
 </div>
+
+@section scripts{
+    <script src="~/Scripts/comments.js"></script>
+}
 
 
