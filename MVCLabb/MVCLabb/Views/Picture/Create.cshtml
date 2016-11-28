@@ -5,8 +5,7 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
-@using (Html.BeginForm("Create", "Picture", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Picture", FormMethod.Post, new { enctype = "multipart/form-data", ID ="createform" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.GalleryID, new { id = "hiddenfield", Value = Model.GalleryID })
@@ -33,7 +32,7 @@
         <div class="form-group">
             <label for="photo" class="control-label col-md-2">Picture</label>
             <div class="col-md-10">
-                <input id="photo" name="photo" type="file" />
+                <input id="photo" name="photo" type="file"/>
             </div>
         </div>
         <div>
@@ -44,7 +43,7 @@
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsPublicPicture)
-                    @Html.ValidationMessageFor(model => model.IsPublicPicture, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.IsPublicPicture, "", new { @class = "text-danger"})
                 </div>
             </div>
         </div>
@@ -53,13 +52,18 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" required />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to Gallery", "ViewGallery","Gallery", new { id = Model.GalleryID }, null)
+    @Html.ActionLink("Back to Gallery", "ViewGallery","Gallery", new { id = Model.GalleryID }, new { ID = "backbtn" })
 </div>
+
+@section scripts{
+    
+<script src="~/Scripts/addpicture.js"></script>
+    }
 

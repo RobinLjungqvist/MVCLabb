@@ -23,5 +23,27 @@ namespace MVCLabb.Utilities
             return (sid != null) ? claim.Value : string.Empty;
         }
 
+
+        public static bool IsFilePicture(string filename)
+        {
+            if (filename.EndsWith(".png") || filename.EndsWith(".PNG"))
+            {
+                return true;
+            }
+
+            if (filename.EndsWith(".jpg") || filename.EndsWith(".JPG"))
+            {
+                return true;
+            }
+            if (filename.EndsWith(".jpeg") || filename.EndsWith(".JPEG"))
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
+
+
 }
+

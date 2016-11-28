@@ -49,8 +49,7 @@ namespace MVCLabb.Controllers
         {
             model.UserID = int.Parse(MVCLabb.Utilities.Helpers.GetSid(User.Identity));
             model.DatePosted = DateTime.Now;
-
-            string pictureFolder = Server.MapPath("../../Images");
+            string pictureFolder = Server.MapPath("~/Images");
 
             var path = string.Empty;
             var fileName = string.Empty;
@@ -59,10 +58,18 @@ namespace MVCLabb.Controllers
 
 
                 fileName = Path.GetFileName(photo.FileName);
+                if (!Helpers.IsFilePicture(fileName))
+                {
+                    return Content("The file must be a picture in the format png, jpg or jpeg");
+                }
                 path = Path.Combine(pictureFolder, fileName);
                 photo.SaveAs(path);
 
 
+            }
+            else
+            {
+                return Content("You must choose a file!");
             }
 
 
@@ -79,9 +86,10 @@ namespace MVCLabb.Controllers
                     ctx.Pictures.Add(newPicture);
                     ctx.SaveChanges();
                 }
-                return RedirectToAction("ViewGallery", "Gallery", new { id = model.GalleryID });
+                return Content("Added picture to gallery!");
+                //return RedirectToAction("ViewGallery", "Gallery", new { id = model.GalleryID });
             }
-            return View(model);
+            return Content("Something went wrong couldn't add the picture");
         }
 
         public ActionResult Delete(PictureViewModel model)
@@ -104,6 +112,9 @@ namespace MVCLabb.Controllers
                         filePath = Request.MapPath(picToRemove.Path);
                         FileInfo file = new FileInfo(filePath);
 
+                        var commentsToRemove = ctx.Comments.Where(c => c.PictureID == picToRemove.id);
+                        if(commentsToRemove != null) { ctx.Comments.RemoveRange(commentsToRemove); }
+
                         ctx.Pictures.Remove(picToRemove);
                         ctx.SaveChanges();
                         if (file.Exists)
@@ -117,8 +128,18 @@ namespace MVCLabb.Controllers
             return Redirect(Request.UrlReferrer.ToString());
         }
 
-        public ActionResult Edit(PictureViewModel model)
+        public ActionResult Edit(int id)
         {
+            var model = new PictureViewModel();
+            using(var ctx = new MVCLabbDB())
+            {
+                var picFromDB = ctx.Pictures.Find(id);
+                if (picFromDB != null)
+                {
+                    model = EntityModelMapper.EntityToModel(picFromDB);
+                }
+            }
+
             return View(model);
         }
 

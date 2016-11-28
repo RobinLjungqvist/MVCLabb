@@ -3,6 +3,7 @@ using MVCLabb.Models;
 using MVCLabb.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -96,7 +97,7 @@ namespace MVCLabb.Controllers
                     if (galleryToRemove.UserID == userID)
                     {
 
-                        var picturesToRemove = ctx.Pictures.Where(p => p.UserID == userID);
+                        var picturesToRemove = ctx.Pictures.Where(p => p.UserID == userID && p.GalleryID == galleryID);
 
                         if(picturesToRemove != null)
                         {
@@ -104,6 +105,13 @@ namespace MVCLabb.Controllers
                             {
                                 var commentsToRemove = ctx.Comments.Where(c => c.PictureID == picture.id);
                                 ctx.Comments.RemoveRange(commentsToRemove);
+
+                                var filePath = Request.MapPath(picture.Path);
+                                FileInfo file = new FileInfo(filePath);
+                                if (file.Exists)
+                                {
+                                    file.Delete();
+                                }
                             }
                             
 

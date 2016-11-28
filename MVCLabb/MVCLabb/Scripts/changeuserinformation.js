@@ -15,13 +15,17 @@ userinfoForm.submit(function (e) {
     e.preventDefault();
     userinfoForm.validate();
     $.post("/Account/MyPage/Index", userinfoForm.serialize(), function (data) {
-        swal(data);
         if (data === "The email is already registered.") {
             emailFormControl.val(oldemail);
+            swal("Oh no!", data, "error");
 
         }
-        else {
+        else{
             oldemail = emailFormControl.val();
+            swal("Yay!", data, "success")
+        }
+        if (data === "Couldn't update information") {
+            swal("Oh no!", data, "error");
         }
     });
 
@@ -44,7 +48,11 @@ $("#btn_changepw").click(function (e) {
             $("#password").val('');
             newPW.val('');
             newPW2.val('');
+            swal("Success", data, "success");
 
+        }
+        else {
+            swal("Error", data, "error");
         }
     });
     }

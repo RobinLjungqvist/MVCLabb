@@ -14,7 +14,7 @@
         <h2>@Model.Name</h2>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.id, new { ID = "pictureID" })
         @Html.HiddenFor(model => model.UserID)
         @Html.HiddenFor(model => model.DatePosted)
         @Html.HiddenFor(model => model.DateEdited)
@@ -72,3 +72,5 @@
 <div>
     @Html.ActionLink("Back to image", "Details", "Picture", Model, null )
 </div>
+
+

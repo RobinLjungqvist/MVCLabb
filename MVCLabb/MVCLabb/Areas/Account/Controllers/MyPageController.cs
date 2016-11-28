@@ -72,7 +72,7 @@ namespace MVCLabb.Areas.Account.Controllers
 
                         ViewData["Message"] = "User information updated";
 
-                        return Content("Updated user information!");
+                        return Content("User information updated!");
                     }
                     else
                     {
