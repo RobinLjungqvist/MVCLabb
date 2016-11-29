@@ -135,6 +135,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\MVCLabb.Data.DataContext.mdf" />
+    <Content Include="App_Data\MVCLabb.Data.DataContext_log.ldf">
+      <DependentUpon>MVCLabb.Data.DataContext.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
@@ -227,7 +231,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Areas\Account\Models\" />
     <Folder Include="Areas\Account\Views\MyGallery\" />
     <Folder Include="Areas\Account\Views\MyPicture\" />
@@ -235,12 +238,15 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Images\" />
-    <Folder Include="Repository\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
       <Project>{bee9ac01-6fa9-4a24-b181-102e53a9bec3}</Project>
       <Name>DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVCLabb.Data\MVCLabb.Data.csproj">
+      <Project>{5A686B1F-518C-4BE3-83A0-BAD97C62B7AC}</Project>
+      <Name>MVCLabb.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

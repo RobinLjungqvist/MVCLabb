@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using MVCLabb.Utilities;
 using System.IO;
 using System.Data.Entity;
+using System.Threading;
 
 namespace MVCLabb.Controllers
 {
@@ -47,6 +48,7 @@ namespace MVCLabb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(PictureViewModel model, HttpPostedFileBase photo)
         {
+            Thread.Sleep(5000);
             model.UserID = int.Parse(MVCLabb.Utilities.Helpers.GetSid(User.Identity));
             model.DatePosted = DateTime.Now;
             string pictureFolder = Server.MapPath("~/Images");

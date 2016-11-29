@@ -46,7 +46,6 @@ form.submit(function (e) {
                     data: new FormData(form[0]),
                     success: function (data) {
                         if (data.match("^Added")) {
-                            swal("Success!", data, "success");
                             uploadMoreImagesPrompt();
                         }
                         else {
@@ -67,11 +66,11 @@ form.submit(function (e) {
 var uploadMoreImagesPrompt = function() {
 
     swal({
-        title: "Upload more pictures?",
-        text: "",
-        type: "info",
+        title: "Success!?",
+        text: "Upload more pictures?",
+        type: "success",
         showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
+        confirmButtonColor: "#779b79",
         confirmButtonText: "Yes",
         cancelButtonText: "No",
         closeOnConfirm: true,

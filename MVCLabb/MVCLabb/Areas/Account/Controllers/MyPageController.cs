@@ -69,7 +69,6 @@ namespace MVCLabb.Areas.Account.Controllers
                         user.Email = model.Email;
                         ctx.Entry(user).State = System.Data.Entity.EntityState.Modified;
                         ctx.SaveChanges();
-
                         ViewData["Message"] = "User information updated";
 
                         return Content("User information updated!");

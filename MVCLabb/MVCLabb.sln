@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCLabb", "MVCLabb\MVCLabb.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{BEE9AC01-6FA9-4A24-B181-102E53A9BEC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCLabb.Data", "MVCLabb.Data\MVCLabb.Data.csproj", "{5A686B1F-518C-4BE3-83A0-BAD97C62B7AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BEE9AC01-6FA9-4A24-B181-102E53A9BEC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEE9AC01-6FA9-4A24-B181-102E53A9BEC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEE9AC01-6FA9-4A24-B181-102E53A9BEC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A686B1F-518C-4BE3-83A0-BAD97C62B7AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A686B1F-518C-4BE3-83A0-BAD97C62B7AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A686B1F-518C-4BE3-83A0-BAD97C62B7AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A686B1F-518C-4BE3-83A0-BAD97C62B7AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

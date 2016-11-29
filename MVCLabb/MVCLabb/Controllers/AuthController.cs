@@ -7,6 +7,8 @@ using System.Security.Claims;
 using DataAccessLayer;
 using MVCLabb.Models;
 using MVCLabb.Utilities;
+using MVCLabb.Data.Repositories;
+using MVCLabb.Data.Models;
 
 namespace MVCLabb.Controllers
 {
@@ -23,11 +25,10 @@ namespace MVCLabb.Controllers
         [HttpPost]
         public ActionResult Login(UserViewModel model)
         {
-            Users userToLogin = null;
-            using (var ctx = new MVCLabbDB())
-            {
-                userToLogin = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
-            }
+            var repo = new UserRepository();
+            UserEntityModel userToLogin = null;
+
+            userToLogin = repo.LoginUser(model.Email, model.Password);
 
             if (userToLogin != null)
             {
@@ -66,20 +67,21 @@ namespace MVCLabb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registration(UserViewModel user)
         {
+            var repo = new UserRepository();
             user.guid = Guid.NewGuid();
-            using (var ctx = new MVCLabbDB())
-            {
-                if (ModelState.IsValid && ctx.Users.FirstOrDefault(x=> x.Email.Contains(user.Email)) == null)
+
+                if (ModelState.IsValid && !repo.isEmailTaken(user.Email))
                 {
 
 
                     var newUser = EntityModelMapper.ModelToEntity(user);
-                    ctx.Users.Add(newUser);
-                    ctx.SaveChanges();
+                    
+                    repo.AddOrUpdate(newUser);
+
                     return Redirect("/Auth/Login");
                 }
+            
 
-            }
 
 
             ModelState.AddModelError("", "Something went wrong");
@@ -95,7 +97,7 @@ namespace MVCLabb.Controllers
             authManager.SignOut("ApplicationCookie");
             return RedirectToAction("Login", "Auth");
         }
-        private bool UserIsAdmin(Users user)
+        private bool UserIsAdmin(UserEntityModel user)
         {
 
             if(user.guid == Guid.Parse("{3027308A-5C93-4694-869A-BA40F042F94C}"))

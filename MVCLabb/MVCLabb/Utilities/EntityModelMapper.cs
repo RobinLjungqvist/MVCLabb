@@ -1,18 +1,14 @@
-﻿using DataAccessLayer;
+﻿using MVCLabb.Data.Models;
 using MVCLabb.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace MVCLabb.Utilities
 {
     public static class EntityModelMapper
     {
         #region Users
-        public static Users ModelToEntity(UserViewModel model)
+        public static UserEntityModel ModelToEntity(UserViewModel model)
         {
-            var user = new Users();
+            var user = new UserEntityModel();
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.Email = model.Email;
@@ -24,7 +20,7 @@ namespace MVCLabb.Utilities
 
         }
 
-        public static UserViewModel EntityToModel(Users entity)
+        public static UserViewModel EntityToModel(UserEntityModel entity)
         {
             var model = new UserViewModel();
             model.FirstName = entity.FirstName;
@@ -40,9 +36,9 @@ namespace MVCLabb.Utilities
         #endregion
 
         #region Gallery
-        public static Gallery ModelToEntity(GalleryViewModel model)
+        public static GalleryEntityModel ModelToEntity(GalleryViewModel model)
         {
-            var entity = new Gallery();
+            var entity = new GalleryEntityModel();
             entity.id = model.id;
             entity.GalleryName = model.GalleryName;
             entity.DateCreated = model.DateCreated;
@@ -51,7 +47,7 @@ namespace MVCLabb.Utilities
             return entity;
         }
 
-        public static GalleryViewModel EntityToModel(Gallery entity)
+        public static GalleryViewModel EntityToModel(GalleryEntityModel entity)
         {
             var model = new GalleryViewModel();
             model.id = entity.id;
@@ -68,9 +64,9 @@ namespace MVCLabb.Utilities
         #region Pictures
 
 
-        public static Pictures ModelToEntity(PictureViewModel model)
+        public static PictureEntityModel ModelToEntity(PictureViewModel model)
         {
-            var pic = new Pictures();
+            var pic = new PictureEntityModel();
             pic.Name = model.Name;
             pic.id = model.id;
             pic.Path = model.Path;
@@ -89,7 +85,7 @@ namespace MVCLabb.Utilities
 
         }
 
-        public static PictureViewModel EntityToModel(Pictures entity)
+        public static PictureViewModel EntityToModel(PictureEntityModel entity)
         {
             var model = new PictureViewModel();
             model.Name = entity.Name;
@@ -112,9 +108,9 @@ namespace MVCLabb.Utilities
         #endregion
 
         #region Comment
-        public static Comments ModelToEntity(CommentViewModel model)
+        public static CommentEntityModel ModelToEntity(CommentViewModel model)
         {
-            var entity = new Comments();
+            var entity = new CommentEntityModel();
             entity.Comment = model.Comment;
             entity.id = model.id;
             entity.PictureID = model.PictureID;
@@ -126,7 +122,7 @@ namespace MVCLabb.Utilities
             return entity;
         }
 
-        public static CommentViewModel EntityToModel(Comments entity)
+        public static CommentViewModel EntityToModel(CommentEntityModel entity)
         {
             var model = new CommentViewModel();
             model.Comment = entity.Comment;
