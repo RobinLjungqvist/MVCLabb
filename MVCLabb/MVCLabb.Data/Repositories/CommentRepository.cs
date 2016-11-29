@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MVCLabb.Data.Models;
+using System.Data.Entity;
 
 namespace MVCLabb.Data.Repositories
 {
@@ -16,7 +17,10 @@ namespace MVCLabb.Data.Repositories
             {
                 using (var ctx = new DataContext())
                 {
-                    var commentToUpdate = ctx.Comments.Find(comment.id);
+                    var commentToUpdate = ctx.Comments.Where(c => c.id == comment.id)
+                        .Include(c => c.Users)
+                        .Include(c => c.Pictures)
+                        .FirstOrDefault();
                     if (commentToUpdate != null)
                     {
                         commentToUpdate.Title = comment.Title;
@@ -50,8 +54,8 @@ namespace MVCLabb.Data.Repositories
         {
             using (var ctx = new DataContext())
             {
-                var comment = ctx.Comments;
-                return comment;
+                var comments = ctx.Comments.Include(c => c.Users).Include(c => c.Pictures);
+                return comments.ToList();
             }
         }
 
@@ -59,7 +63,10 @@ namespace MVCLabb.Data.Repositories
         {
             using (var ctx = new DataContext())
             {
-                var comment = ctx.Comments.Find(id);
+                var comment = ctx.Comments.Where(c=> c.id == id)
+                        .Include(c => c.Users)
+                        .Include(c => c.Pictures)
+                        .FirstOrDefault();
                 return comment;
             }
         }
@@ -68,7 +75,10 @@ namespace MVCLabb.Data.Repositories
         {
             using (var ctx = new DataContext())
             {
-                var comment = ctx.Comments.Find(id);
+                var comment = ctx.Comments.Where(c => c.id == id)
+                        .Include(c => c.Users)
+                        .Include(c => c.Pictures)
+                        .FirstOrDefault();
                 if (comment != null)
                 {
                     ctx.Comments.Remove(comment);

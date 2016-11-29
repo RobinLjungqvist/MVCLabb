@@ -54,7 +54,6 @@ namespace MVCLabb.Utilities
             model.GalleryName = entity.GalleryName;
             model.DateCreated = entity.DateCreated;
             model.UserID = entity.UserID;
-
             model.User = EntityToModel(entity.User);
 
             return model;

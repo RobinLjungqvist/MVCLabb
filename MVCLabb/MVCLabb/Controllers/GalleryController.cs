@@ -30,10 +30,13 @@ namespace MVCLabb.Controllers
 
             var galleriesFromDB = repo.All();
 
-            foreach (var gallery in galleriesFromDB)
+            if (galleriesFromDB != null)
             {
-                var galleryToAdd = EntityModelMapper.EntityToModel(gallery);
-                galleries.Add(galleryToAdd);
+                foreach (var gallery in galleriesFromDB)
+                {
+                    var galleryToAdd = EntityModelMapper.EntityToModel(gallery);
+                    galleries.Add(galleryToAdd);
+                } 
             }
 
             

@@ -15,7 +15,8 @@ namespace MVCLabb.Data.Repositories
             try { 
             using(var ctx = new DataContext())
             {
-                var userToUpdate = ctx.Users.Find(user.id);
+                    var userToUpdate = ctx.Users.Find(user.id);
+                   
                 if(userToUpdate != null)
                 {
                     userToUpdate.FirstName = user.FirstName;
@@ -51,7 +52,7 @@ namespace MVCLabb.Data.Repositories
             using(var ctx = new DataContext())
             {
                 var users = ctx.Users;
-                return users;
+                return users.ToList();
             }
         }
 

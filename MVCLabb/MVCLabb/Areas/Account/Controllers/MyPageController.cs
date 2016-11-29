@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using MVCLabb.Data.Repositories;
 using MVCLabb.Models;
 using MVCLabb.Utilities;
 using System;
@@ -13,34 +14,29 @@ namespace MVCLabb.Areas.Account.Controllers
 {
     public class MyPageController : Controller
     {
-        // GET: Account/MyPage
+        private UserRepository repo;
+
+        public MyPageController()
+        {
+            this.repo = new UserRepository();
+        }
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
             {
                 var identity = (ClaimsIdentity)User.Identity;
                 var sid = identity.Claims.First(x => x.Type == ClaimTypes.Sid);
-                int? userID = int.Parse(sid.Value);
+                int userID = int.Parse(sid.Value);
 
 
-                if(userID != null)
-                {
-                    var user = new UserViewModel();
-                    var userFromDB = new Users();
-                    using(var ctx = new MVCLabbDB())
-                    {
-                      userFromDB =  ctx.Users.FirstOrDefault(u => u.id == userID);
-
-                    }
+                    var userFromDB = repo.ByID(userID);
 
                     if(userFromDB != null)
                     {
-                        user = EntityModelMapper.EntityToModel(userFromDB);
+                        var user = EntityModelMapper.EntityToModel(userFromDB);
                         return View(user);
 
                     }
-                }
-
                 
             }
 
@@ -53,37 +49,32 @@ namespace MVCLabb.Areas.Account.Controllers
         {
             var identity = (ClaimsIdentity)User.Identity;
             var sid = identity.Claims.First(x => x.Type == ClaimTypes.Sid);
-            int? userID = int.Parse(sid.Value);
+            int userID = int.Parse(sid.Value);
 
             ModelState.Remove("Password");
 
             if (ModelState.IsValid && User.Identity.IsAuthenticated)
             {
-                using(var ctx = new MVCLabbDB())
+                var user = repo.ByID(userID);
+                if (user != null && !repo.isEmailTaken(user.Email) || user.Email == model.Email)
                 {
-                    var user = ctx.Users.FirstOrDefault(u => u.id == userID);
-                    if(user != null && ctx.Users.Where(x=>x.Email.Contains(model.Email)).Count() == 0 || user.Email == model.Email)
-                    {
-                        user.FirstName = model.FirstName;
-                        user.LastName = model.LastName;
-                        user.Email = model.Email;
-                        ctx.Entry(user).State = System.Data.Entity.EntityState.Modified;
-                        ctx.SaveChanges();
-                        ViewData["Message"] = "User information updated";
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.Email = model.Email;
+                    repo.AddOrUpdate(user);
+                    ViewData["Message"] = "User information updated";
 
-                        return Content("User information updated!");
-                    }
-                    else
-                    {
-                        model.Email = user.Email;
-                        return Content("The email is already registered.");
-                        
-                    }
+                    return Content("User information updated!");
+                }
+                else
+                {
+                    model.Email = user.Email;
+                    return Content("The email is already registered.");
 
                 }
-                
 
             }
+
             return Content("Couldn't update information");
 
         }
@@ -93,7 +84,7 @@ namespace MVCLabb.Areas.Account.Controllers
         {
             string success = string.Empty;
 
-            if(Password != newPassword2 || Password == string.Empty )
+            if (Password != newPassword2 || Password == string.Empty)
             {
                 success = "new passwords didn't match.";
                 return Json(success);
@@ -101,25 +92,22 @@ namespace MVCLabb.Areas.Account.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                using (var ctx = new MVCLabbDB())
-                {
-                    int userID = int.Parse(Helpers.GetSid(User.Identity));
-                    var userFromDB = ctx.Users.FirstOrDefault(x => x.id == userID);
 
-                    if(userFromDB.Password == oldPassword)
-                    {
-                        userFromDB.Password = Password;
-                        ctx.Entry(userFromDB).State = EntityState.Modified;
-                        ctx.SaveChanges();
-                        success = "Update successful";
-                        return Json(success);
-                    }
-                    success = "Wrong password";
+                int userID = int.Parse(Helpers.GetSid(User.Identity));
+                var userFromDB = repo.ByID(userID);
+
+                if (userFromDB.Password == oldPassword)
+                {
+                    userFromDB.Password = Password;
+                    repo.AddOrUpdate(userFromDB);
+                    success = "Update successful";
+                    return Json(success);
                 }
+                success = "Wrong password";
 
             }
 
-                success = success + " update failed.";
+            success = success + " update failed.";
 
             return Content(success);
         }

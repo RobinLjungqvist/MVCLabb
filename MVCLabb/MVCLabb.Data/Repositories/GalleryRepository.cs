@@ -48,7 +48,7 @@ namespace MVCLabb.Data.Repositories
             using(var ctx = new DataContext())
             {
                 var galleries = ctx.Galleries;
-                return galleries;
+                return galleries.ToList();
             }
         }
 

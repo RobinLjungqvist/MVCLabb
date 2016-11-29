@@ -57,7 +57,7 @@ namespace MVCLabb.Data.Repositories
             using (var ctx = new DataContext())
             {
                 var pictures = ctx.Pictures;
-                return pictures;
+                return pictures.ToList();
             }
         }
 

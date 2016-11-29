@@ -10,6 +10,10 @@ namespace MVCLabb.Data
 {
     public class DataContext : DbContext
     {
+        public DataContext()
+        {
+            this.Configuration.LazyLoadingEnabled = false;
+        }
         public DbSet<UserEntityModel> Users { get; set; }
         public DbSet<GalleryEntityModel> Galleries { get; set; }
 

@@ -20,7 +20,7 @@ namespace MVCLabb.Controllers
 
             var repo = new PictureRepository();
 
-            var picturesFromDB = repo.All().OrderByDescending(x => x.DatePosted).Take(5);
+            var picturesFromDB = repo.All().OrderByDescending(x => x.DatePosted).Take(5).ToList();
                 foreach (var pic in picturesFromDB)
                 {
                     newestPictures.Add(EntityModelMapper.EntityToModel(pic));
