@@ -18,8 +18,8 @@ namespace MVCLabb.Data.Repositories
                 using (var ctx = new DataContext())
                 {
                     var commentToUpdate = ctx.Comments.Where(c => c.id == comment.id)
-                        .Include(c => c.Users)
-                        .Include(c => c.Pictures)
+                        .Include(c => c.User)
+                        .Include(c => c.Picture)
                         .FirstOrDefault();
                     if (commentToUpdate != null)
                     {
@@ -54,7 +54,7 @@ namespace MVCLabb.Data.Repositories
         {
             using (var ctx = new DataContext())
             {
-                var comments = ctx.Comments.Include(c => c.Users).Include(c => c.Pictures);
+                var comments = ctx.Comments.Include(c => c.User).Include(c => c.Picture);
                 return comments.ToList();
             }
         }
@@ -64,8 +64,8 @@ namespace MVCLabb.Data.Repositories
             using (var ctx = new DataContext())
             {
                 var comment = ctx.Comments.Where(c=> c.id == id)
-                        .Include(c => c.Users)
-                        .Include(c => c.Pictures)
+                        .Include(c => c.User)
+                        .Include(c => c.Picture)
                         .FirstOrDefault();
                 return comment;
             }
@@ -76,8 +76,8 @@ namespace MVCLabb.Data.Repositories
             using (var ctx = new DataContext())
             {
                 var comment = ctx.Comments.Where(c => c.id == id)
-                        .Include(c => c.Users)
-                        .Include(c => c.Pictures)
+                        .Include(c => c.User)
+                        .Include(c => c.Picture)
                         .FirstOrDefault();
                 if (comment != null)
                 {

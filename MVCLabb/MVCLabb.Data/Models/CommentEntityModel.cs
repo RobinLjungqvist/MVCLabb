@@ -16,7 +16,7 @@ namespace MVCLabb.Data.Models
         public Nullable<System.DateTime> DatePosted { get; set; }
         public Nullable<System.DateTime> DateEdited { get; set; }
 
-        public virtual PictureEntityModel Pictures { get; set; }
-        public virtual UserEntityModel Users { get; set; }
+        public virtual PictureEntityModel Picture { get; set; }
+        public virtual UserEntityModel User { get; set; }
     }
 }

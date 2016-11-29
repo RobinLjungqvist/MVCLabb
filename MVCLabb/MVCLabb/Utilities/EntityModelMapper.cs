@@ -96,7 +96,7 @@ namespace MVCLabb.Utilities
             model.DateEdited = entity.DateEdited;
             model.GalleryID = entity.GalleryID;
             model.IsPublicPicture = entity.@public;
-            model.Uploader = entity.Users.FirstName + " " + entity.Users.LastName;
+            model.Uploader = entity.User.FirstName + " " + entity.User.LastName;
              
 
             return model;
@@ -127,9 +127,9 @@ namespace MVCLabb.Utilities
             model.Comment = entity.Comment;
             model.id = entity.id;
             model.PictureID = entity.PictureID;
-            model.Picture = EntityToModel(entity.Pictures);
+            model.Picture = EntityToModel(entity.Picture);
             model.UserID = entity.UserID;
-            model.User = EntityToModel(entity.Users);
+            model.User = EntityToModel(entity.User);
             model.Title = entity.Title;
             model.DateEdited = entity.DateEdited;
             model.DatePosted = entity.DatePosted;

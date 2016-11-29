@@ -17,7 +17,6 @@ namespace MVCLabb.Controllers
         public ActionResult Index()
         {
             var newestPictures = new List<PictureViewModel>();
-
             var repo = new PictureRepository();
 
             var picturesFromDB = repo.All().OrderByDescending(x => x.DatePosted).Take(5).ToList();

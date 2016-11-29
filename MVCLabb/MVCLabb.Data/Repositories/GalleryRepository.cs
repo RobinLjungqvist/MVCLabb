@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MVCLabb.Data.Models;
+using System.Data.Entity;
 
 namespace MVCLabb.Data.Repositories
 {
@@ -15,7 +16,10 @@ namespace MVCLabb.Data.Repositories
             try { 
             using (var ctx = new DataContext())
             {
-                var galleryToUpdate = ctx.Galleries.Find(gallery.id);
+                    var galleryToUpdate = ctx.Galleries.Where(g => g.id == gallery.id)
+                            .Include(g => g.Pictures)
+                            .Include(g => g.User).
+                            FirstOrDefault();
                 if (galleryToUpdate != null)
                 {
                     galleryToUpdate.GalleryName = gallery.GalleryName;
@@ -47,7 +51,9 @@ namespace MVCLabb.Data.Repositories
         {
             using(var ctx = new DataContext())
             {
-                var galleries = ctx.Galleries;
+                var galleries = ctx.Galleries
+                            .Include(g => g.Pictures)
+                            .Include(g => g.User);      
                 return galleries.ToList();
             }
         }
@@ -56,7 +62,10 @@ namespace MVCLabb.Data.Repositories
         {
             using (var ctx = new DataContext())
             {
-                var gallery = ctx.Galleries.Find(id);
+                var gallery = ctx.Galleries.Where(g => g.id == id)
+                            .Include(g => g.Pictures)
+                            .Include(g => g.User).
+                            FirstOrDefault();
                 return gallery;
             }
         }
@@ -65,7 +74,10 @@ namespace MVCLabb.Data.Repositories
         {
             using (var ctx = new DataContext())
             {
-                var gallery = ctx.Galleries.Find(id);
+                var gallery = ctx.Galleries.Where(g => g.id == id)
+                            .Include(g => g.Pictures)
+                            .Include(g => g.User).
+                            FirstOrDefault();
 
                 if (gallery != null)
                 {

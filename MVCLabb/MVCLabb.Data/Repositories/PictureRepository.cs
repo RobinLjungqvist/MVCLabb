@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MVCLabb.Data.Models;
+using System.Data.Entity;
 
 namespace MVCLabb.Data.Repositories
 {
@@ -16,7 +17,13 @@ namespace MVCLabb.Data.Repositories
             {
                 using(var ctx = new DataContext())
                 {
-                    var pictureToUpdate = ctx.Pictures.Find(picture.id);
+                    var pictureToUpdate = ctx.Pictures.Where(p => p.id == picture.id)
+                        .Include(p => p.User)
+                        .Include(p => p.Comments)
+                        .Include(p => p.Gallery)
+                        .FirstOrDefault();
+
+
                     if(pictureToUpdate != null)
                     {
                         pictureToUpdate.Name = picture.Name;
@@ -56,7 +63,10 @@ namespace MVCLabb.Data.Repositories
         {
             using (var ctx = new DataContext())
             {
-                var pictures = ctx.Pictures;
+                var pictures = ctx.Pictures
+                        .Include(p => p.Comments)
+                        .Include(p => p.Gallery)
+                        .Include(p => p.User);
                 return pictures.ToList();
             }
         }
@@ -65,7 +75,11 @@ namespace MVCLabb.Data.Repositories
         {
             using (var ctx = new DataContext())
             {
-                var picture = ctx.Pictures.Find(id);
+                var picture = ctx.Pictures.Where(p => p.id == id)
+                        .Include(p => p.User)
+                        .Include(p => p.Comments)
+                        .Include(p => p.Gallery)
+                        .FirstOrDefault();
                 return picture;
             }
         }
@@ -74,8 +88,12 @@ namespace MVCLabb.Data.Repositories
         {
             using (var ctx = new DataContext())
             {
-                var picture = ctx.Pictures.Find(id);
-                if(picture != null)
+                var picture = ctx.Pictures.Where(p => p.id == id)
+                        .Include(p => p.User)
+                        .Include(p => p.Comments)
+                        .Include(p => p.Gallery)
+                        .FirstOrDefault();
+                if (picture != null)
                 {
                     ctx.Pictures.Remove(picture);
                     ctx.SaveChanges();

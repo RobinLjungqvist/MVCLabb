@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MVCLabb.Data.Models;
+using System.Data.Entity;
 
 namespace MVCLabb.Data.Repositories
 {
@@ -15,9 +16,13 @@ namespace MVCLabb.Data.Repositories
             try { 
             using(var ctx = new DataContext())
             {
-                    var userToUpdate = ctx.Users.Find(user.id);
-                   
-                if(userToUpdate != null)
+                    var userToUpdate = ctx.Users.Where(u => u.id == user.id)
+                        .Include(u => u.Galleries)
+                        .Include(u => u.Comments)
+                        .Include(u => u.Pictures)
+                        .FirstOrDefault();
+
+                if (userToUpdate != null)
                 {
                     userToUpdate.FirstName = user.FirstName;
                     userToUpdate.LastName = user.LastName;
@@ -51,7 +56,11 @@ namespace MVCLabb.Data.Repositories
         {
             using(var ctx = new DataContext())
             {
-                var users = ctx.Users;
+                var users = ctx.Users
+                        .Include(u => u.Galleries)
+                        .Include(u => u.Comments)
+                        .Include(u => u.Pictures);
+                       
                 return users.ToList();
             }
         }
@@ -60,7 +69,11 @@ namespace MVCLabb.Data.Repositories
         {
             using(var ctx = new DataContext())
             {
-                var user = ctx.Users.Find(id);
+                var user = ctx.Users.Where(u => u.id == id)
+                        .Include(u => u.Galleries)
+                        .Include(u => u.Comments)
+                        .Include(u => u.Pictures)
+                        .FirstOrDefault();
                 return user;
             }
         }
@@ -69,7 +82,12 @@ namespace MVCLabb.Data.Repositories
         {
             using (var ctx = new DataContext())
             {
-                var user = ctx.Users.Find(id);
+                var user = ctx.Users.Where(u => u.id == id)
+                        .Include(u => u.Galleries)
+                        .Include(u => u.Comments)
+                        .Include(u => u.Pictures)
+                        .FirstOrDefault();
+
                 if (user != null)
                 {
                     ctx.Users.Remove(user);

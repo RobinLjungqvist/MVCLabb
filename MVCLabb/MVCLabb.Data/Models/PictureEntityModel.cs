@@ -24,7 +24,7 @@ namespace MVCLabb.Data.Models
         public int GalleryID { get; set; }
 
         public virtual ICollection<CommentEntityModel> Comments { get; set; }
-        public virtual UserEntityModel Users { get; set; }
+        public virtual UserEntityModel User { get; set; }
         public virtual GalleryEntityModel Gallery { get; set; }
     }
 }

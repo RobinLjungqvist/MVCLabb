@@ -58,6 +58,10 @@
     <Compile Include="Migrations\201611291207280_FixedContext.Designer.cs">
       <DependentUpon>201611291207280_FixedContext.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611291632539_FixedPropertyNames.cs" />
+    <Compile Include="Migrations\201611291632539_FixedPropertyNames.Designer.cs">
+      <DependentUpon>201611291632539_FixedPropertyNames.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CommentEntityModel.cs" />
     <Compile Include="Models\GalleryEntityModel.cs" />
@@ -83,6 +87,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611291207280_FixedContext.resx">
       <DependentUpon>201611291207280_FixedContext.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611291632539_FixedPropertyNames.resx">
+      <DependentUpon>201611291632539_FixedPropertyNames.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
