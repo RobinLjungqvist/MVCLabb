@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using MVCLabb.Data.Repositories;
 using MVCLabb.Models;
 using MVCLabb.Utilities;
 using System;
@@ -17,14 +18,14 @@ namespace MVCLabb.Controllers
         {
             var newestPictures = new List<PictureViewModel>();
 
-            using(var ctx = new MVCLabbDB())
-            {
-                var picturesFromDB = ctx.Pictures.OrderByDescending(d => d.DatePosted).Take(5).ToList();
+            var repo = new PictureRepository();
+
+            var picturesFromDB = repo.All().OrderByDescending(x => x.DatePosted).Take(5);
                 foreach (var pic in picturesFromDB)
                 {
                     newestPictures.Add(EntityModelMapper.EntityToModel(pic));
                 }
-            }
+            
 
             return View(newestPictures);
         }

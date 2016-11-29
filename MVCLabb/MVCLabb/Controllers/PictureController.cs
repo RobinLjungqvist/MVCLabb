@@ -9,25 +9,30 @@ using MVCLabb.Utilities;
 using System.IO;
 using System.Data.Entity;
 using System.Threading;
+using MVCLabb.Data.Repositories;
 
 namespace MVCLabb.Controllers
 {
+    
     [Authorize]
     public class PictureController : Controller
     {
+        private PictureRepository repo;
+        public PictureController()
+        {
+            this.repo = new PictureRepository();
+        }
+
         // GET: Picture
         [AllowAnonymous]
         public ActionResult Show(GalleryViewModel model)
         {
             var pictures = new List<PictureViewModel>();
-            using (var ctx = new MVCLabbDB())
-            {
-                var picturesFromDB = ctx.Pictures.Where(p => p.GalleryID == model.id).ToList();
+            var picturesFromDB = repo.All().Where(x => x.GalleryID == model.id);
                 foreach (var pic in picturesFromDB)
                 {
                     pictures.Add(EntityModelMapper.EntityToModel(pic));
                 }
-            }
             ViewBag.GalleryName = model.GalleryName;
             return View(pictures);
         }
@@ -83,11 +88,7 @@ namespace MVCLabb.Controllers
             if (ModelState.IsValid)
             {
                 var newPicture = EntityModelMapper.ModelToEntity(model);
-                using (var ctx = new MVCLabbDB())
-                {
-                    ctx.Pictures.Add(newPicture);
-                    ctx.SaveChanges();
-                }
+                repo.AddOrUpdate(newPicture);
                 return Content("Added picture to gallery!");
                 //return RedirectToAction("ViewGallery", "Gallery", new { id = model.GalleryID });
             }
@@ -106,25 +107,22 @@ namespace MVCLabb.Controllers
 
             if (id != null && User.Identity.IsAuthenticated)
             {
-                using (var ctx = new MVCLabbDB())
-                {
-                    var picToRemove = ctx.Pictures.Find(id);
+                int pictureID = (int)id;
+                var picToRemove = repo.ByID(pictureID);
                     if (picToRemove != null)
                     {
                         filePath = Request.MapPath(picToRemove.Path);
                         FileInfo file = new FileInfo(filePath);
 
-                        var commentsToRemove = ctx.Comments.Where(c => c.PictureID == picToRemove.id);
-                        if(commentsToRemove != null) { ctx.Comments.RemoveRange(commentsToRemove); }
+                        repo.Delete(picToRemove.id);
 
-                        ctx.Pictures.Remove(picToRemove);
-                        ctx.SaveChanges();
+                       
                         if (file.Exists)
                         {
                             file.Delete();
                         }
                     }
-                }
+                
                 return RedirectToAction("ViewGallery", "Gallery", new { id = GalleryID });
             }
             return Redirect(Request.UrlReferrer.ToString());
@@ -133,14 +131,12 @@ namespace MVCLabb.Controllers
         public ActionResult Edit(int id)
         {
             var model = new PictureViewModel();
-            using(var ctx = new MVCLabbDB())
-            {
-                var picFromDB = ctx.Pictures.Find(id);
+
+                var picFromDB = repo.ByID(id);
                 if (picFromDB != null)
                 {
                     model = EntityModelMapper.EntityToModel(picFromDB);
                 }
-            }
 
             return View(model);
         }
@@ -150,7 +146,6 @@ namespace MVCLabb.Controllers
         [ActionName("Edit")]
         public ActionResult EditPicture(PictureViewModel model, HttpPostedFileBase file)
         {
-
             string pictureFolder = Server.MapPath("../../Images");
 
             var path = string.Empty;
@@ -158,40 +153,47 @@ namespace MVCLabb.Controllers
 
             if (file != null && file.ContentLength > 0)
             {
-                FileInfo fileToDelete = new FileInfo(model.Path);
-                if (fileToDelete.Exists)
-                {
-                    fileToDelete.Delete();
-                }
+                RemoveFileIfSame(model);
+                RemoveOldFile(model);
 
                 fileName = Path.GetFileName(file.FileName);
                 path = Path.Combine(pictureFolder, fileName);
                 file.SaveAs(path);
 
-                model.Path = "~/Images/" + fileName;
+                model.Path = "~/Images/" + fileName + model.UserID;
             }
             model.DateEdited = DateTime.Now;
             if (ModelState.IsValid)
             {
-
-                using (var ctx = new MVCLabbDB())
-                {
-                    var picToUpdate = ctx.Pictures.Find(model.id);
-                    picToUpdate.Name = model.Name;
-                    picToUpdate.Description = model.Description;
-                    picToUpdate.Path = model.Path;
-                    picToUpdate.DateEdited = model.DateEdited;
-
-
-                    ctx.Entry(picToUpdate).State = EntityState.Modified;
-                    ctx.SaveChanges();
-                }
+                var picToUpdate = EntityModelMapper.ModelToEntity(model);
+                repo.AddOrUpdate(picToUpdate);
                 return RedirectToAction("Details", "Picture", model);
             }
+
             ModelState.AddModelError("", "Couldn't update information");
             return View(model);
 
         }
+        private void RemoveFileIfSame(PictureViewModel picture)
+        {
+            FileInfo fileToDelete = new FileInfo(picture.Path);
+            if (fileToDelete.Exists)
+            {
+                fileToDelete.Delete();
+            }
+        }
+        private void RemoveOldFile(PictureViewModel picture)
+        {
+            var oldpicture = repo.ByID(picture.id);
 
+            if(oldpicture.Path != picture.Path)
+            {
+                FileInfo oldfile = new FileInfo(oldpicture.Path);
+                if (oldfile.Exists)
+                {
+                    oldfile.Delete();
+                }
+            }
+        }
     }
 }

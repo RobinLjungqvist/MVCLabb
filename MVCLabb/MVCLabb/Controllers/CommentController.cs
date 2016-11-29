@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using MVCLabb.Data.Repositories;
 using MVCLabb.Models;
 using MVCLabb.Utilities;
 using System;
@@ -13,20 +14,25 @@ namespace MVCLabb.Controllers
     [Authorize]
     public class CommentController : Controller
     {
+        CommentRepository repo;
+        public CommentController()
+        {
+            this.repo = new CommentRepository();
+        }
         // GET: Comment
         [AllowAnonymous]
         public ActionResult Comments(int pictureID)
         {
             var comments = new List<CommentViewModel>();
 
-            using(var ctx = new MVCLabbDB())
+
+            var commentsFromDB = repo.All().Where(x => x.PictureID == pictureID);
+
+            foreach (var comment in commentsFromDB)
             {
-                var commentsFromDB = ctx.Comments.Where(c => c.PictureID == pictureID).OrderByDescending(c => c.DatePosted);
-                foreach (var comment in commentsFromDB)
-                {
-                    comments.Add(EntityModelMapper.EntityToModel(comment));
-                }
+                comments.Add(EntityModelMapper.EntityToModel(comment));
             }
+
 
             return PartialView(comments);
         }
@@ -53,14 +59,9 @@ namespace MVCLabb.Controllers
 
             if (ModelState.IsValid && User.Identity.IsAuthenticated)
             {
-                var newComment = new Comments();
-                newComment = EntityModelMapper.ModelToEntity(model);
-
-                using (var ctx = new MVCLabbDB())
-                {
-                    ctx.Comments.Add(newComment);
-                    ctx.SaveChanges();
-                }
+                
+                var newComment = EntityModelMapper.ModelToEntity(model);
+                repo.AddOrUpdate(newComment);
                 return Content("Comment added");
 
             }
@@ -76,11 +77,10 @@ namespace MVCLabb.Controllers
 
                 using (var ctx = new MVCLabbDB())
                 {
-                    var commentToRemove = ctx.Comments.Find(commentID);
+                    var commentToRemove = repo.ByID(commentID);
                     if (commentToRemove != null)
                     {
-                        ctx.Comments.Remove(commentToRemove);
-                        ctx.SaveChanges();
+                        repo.Delete(commentID);
                     }
                     return Content("Comment was removed.");
                 }

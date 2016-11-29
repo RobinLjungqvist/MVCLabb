@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using MVCLabb.Data.Repositories;
 using MVCLabb.Models;
 using MVCLabb.Utilities;
 using System;
@@ -15,21 +16,27 @@ namespace MVCLabb.Controllers
     public class GalleryController : Controller
     {
         // GET: Gallery
+        private GalleryRepository repo;
+
+        public GalleryController()
+        {
+            this.repo = new GalleryRepository();
+        }
+
         [AllowAnonymous]
         public ActionResult Index()
         {
             var galleries = new List<GalleryViewModel>();
 
-            using (var ctx = new MVCLabbDB())
+            var galleriesFromDB = repo.All();
+
+            foreach (var gallery in galleriesFromDB)
             {
-                var galleriesFromDB = ctx.Galleries.ToList();
-
-                foreach (var g in galleriesFromDB)
-                {
-                    galleries.Add(EntityModelMapper.EntityToModel(g));
-                }
-
+                var galleryToAdd = EntityModelMapper.EntityToModel(gallery);
+                galleries.Add(galleryToAdd);
             }
+
+            
             return View(galleries);
         }
         [AllowAnonymous]
@@ -42,10 +49,10 @@ namespace MVCLabb.Controllers
 
             GalleryViewModel galleryToView = null;
 
-            using(var ctx = new MVCLabbDB())
-            {
-                galleryToView = EntityModelMapper.EntityToModel(ctx.Galleries.Find(id));
-            }
+            var galleryID = (int)id;
+
+            galleryToView = EntityModelMapper.EntityToModel(repo.ByID(galleryID));
+            
 
             if(galleryToView != null)
             {
@@ -72,12 +79,9 @@ namespace MVCLabb.Controllers
                 {
                     model.DateCreated = DateTime.Now;
                     model.UserID = (int)userID;
-                    using (var ctx = new MVCLabbDB())
-                    {
-                        var newGallery = EntityModelMapper.ModelToEntity(model);
-                        ctx.Galleries.Add(newGallery);
-                        ctx.SaveChanges();
-                    }
+
+                    var entity = EntityModelMapper.ModelToEntity(model);
+                    repo.AddOrUpdate(entity);
                 }
                 return RedirectToAction("Index", "Gallery");
             }
@@ -90,40 +94,28 @@ namespace MVCLabb.Controllers
             {
                 var userID = int.Parse(Helpers.GetSid(User.Identity));
 
-                using (var ctx = new MVCLabbDB())
+
+                var galleryToRemove = repo.ByID(galleryID);
+
+                if (galleryToRemove.UserID == userID)
                 {
-                    var galleryToRemove = ctx.Galleries.Find(galleryID);
 
-                    if (galleryToRemove.UserID == userID)
+                    if (galleryToRemove.Pictures != null)
                     {
-
-                        var picturesToRemove = ctx.Pictures.Where(p => p.UserID == userID && p.GalleryID == galleryID);
-
-                        if(picturesToRemove != null)
+                        foreach (var picture in galleryToRemove.Pictures)
                         {
-                            foreach (var picture in picturesToRemove)
+                            var filePath = Request.MapPath(picture.Path);
+                            FileInfo file = new FileInfo(filePath);
+                            if (file.Exists)
                             {
-                                var commentsToRemove = ctx.Comments.Where(c => c.PictureID == picture.id);
-                                ctx.Comments.RemoveRange(commentsToRemove);
-
-                                var filePath = Request.MapPath(picture.Path);
-                                FileInfo file = new FileInfo(filePath);
-                                if (file.Exists)
-                                {
-                                    file.Delete();
-                                }
+                                file.Delete();
                             }
-                            
-
-                            ctx.Pictures.RemoveRange(picturesToRemove);
-
                         }
-
-
-                        ctx.Galleries.Remove(galleryToRemove);
-                        ctx.SaveChanges();
-                        return Content("Gallery deleted!");
                     }
+
+
+                    repo.Delete(galleryToRemove.id);
+                    return Content("Gallery deleted!");
                 }
             }
             return Content("Couldn't delete gallery");
@@ -133,13 +125,11 @@ namespace MVCLabb.Controllers
         public ActionResult GalleryList()
         {
             var galleryList = new List<GalleryViewModel>();
-            using (var ctx = new MVCLabbDB())
-            {
-                foreach (var gallery in ctx.Galleries)
+                foreach (var gallery in repo.All())
                 {
                     galleryList.Add(EntityModelMapper.EntityToModel(gallery));
                 }
-            }
+
 
             return PartialView("_GalleryListView", galleryList);
         }
