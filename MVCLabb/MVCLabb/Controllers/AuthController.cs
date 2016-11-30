@@ -48,7 +48,7 @@ namespace MVCLabb.Controllers
                 var authManager = ctx.Authentication;
 
                 
-
+                //Skicka in AuthenticationOptions om man vill ha persistent eller expiration date.
                 authManager.SignIn(identity);
 
                 return Redirect("/Home/Index");

@@ -56,18 +56,18 @@ namespace MVCLabb.Areas.Account.Controllers
             if (ModelState.IsValid && User.Identity.IsAuthenticated)
             {
                 var user = repo.ByID(userID);
-                if (user != null && !repo.isEmailTaken(user.Email) || user.Email == model.Email)
+                if (user != null && (!repo.isEmailTaken(model.Email) || user.Email == model.Email))
                 {
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
                     user.Email = model.Email;
                     repo.AddOrUpdate(user);
 
-                    identity.AddClaim(new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName));
-                    identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+                    //identity.AddClaim(new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName));
+                    //identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
 
-                    var ctx = Request.GetOwinContext();
-                    ctx.Authentication.SignIn(identity);
+                    //var ctx = Request.GetOwinContext();
+                    //ctx.Authentication.SignIn(identity);
 
                     ViewData["Message"] = "User information updated";
 
@@ -117,23 +117,6 @@ namespace MVCLabb.Areas.Account.Controllers
             success = success + " update failed.";
 
             return Content(success);
-        }
-
-        public ActionResult CheckEmailTaken(string email)
-        {
-            using(var ctx = new MVCLabbDB())
-            {
-                var emails = ctx.Users.Select(x => x.Email);
-
-                if (emails.Contains(email))
-                {
-                    return Content("true");
-                }
-                else
-                {
-                    return Content("false");
-                }
-            }
         }
     }
 }

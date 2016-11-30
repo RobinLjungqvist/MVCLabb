@@ -19,13 +19,11 @@ namespace MVCLabb.Data.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
             //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            context.Users.AddOrUpdate(
+              p => p,
+              new Models.UserEntityModel { id = 1, FirstName = "Robin", LastName = "Ljungqvist", Password = "Testtest1", Email = "Robin@Email.com", guid = Guid.Parse("{3027308A-5C93-4694-869A-BA40F042F94C}") }
+            );
+
         }
     }
 }
