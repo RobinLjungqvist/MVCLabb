@@ -179,9 +179,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
-    <Compile Include="Areas\Account\Controllers\MyGalleryController.cs" />
     <Compile Include="Areas\Account\Controllers\MyPageController.cs" />
-    <Compile Include="Areas\Account\Controllers\MyPictureController.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
@@ -232,8 +230,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Account\Models\" />
-    <Folder Include="Areas\Account\Views\MyGallery\" />
-    <Folder Include="Areas\Account\Views\MyPicture\" />
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />

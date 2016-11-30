@@ -32,6 +32,8 @@ namespace MVCLabb.Controllers
 
             if (userToLogin != null)
             {
+
+                //Refaktorera till en egen metod
                 var identity = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Name, (userToLogin.FirstName + " " + userToLogin.LastName)),

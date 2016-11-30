@@ -62,6 +62,13 @@ namespace MVCLabb.Areas.Account.Controllers
                     user.LastName = model.LastName;
                     user.Email = model.Email;
                     repo.AddOrUpdate(user);
+
+                    identity.AddClaim(new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName));
+                    identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+
+                    var ctx = Request.GetOwinContext();
+                    ctx.Authentication.SignIn(identity);
+
                     ViewData["Message"] = "User information updated";
 
                     return Content("User information updated!");
