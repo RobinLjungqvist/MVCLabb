@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer;
 using MVCLabb.Data.Repositories;
+using MVCLabb.Data.Repositories.Interfaces;
 using MVCLabb.Models;
 using MVCLabb.Utilities;
 using System;
@@ -14,10 +15,10 @@ namespace MVCLabb.Controllers
     [Authorize]
     public class CommentController : Controller
     {
-        CommentRepository repo;
-        public CommentController()
+        private ICommentRepository repo;
+        public CommentController(ICommentRepository repo)
         {
-            this.repo = new CommentRepository();
+            this.repo = repo;
         }
         // GET: Comment
         [AllowAnonymous]

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MVCLabb.Data.Repositories.Interfaces
 {
-    interface IGalleryRepository
+    public interface IGalleryRepository
     {
         IEnumerable<GalleryEntityModel> All();
 

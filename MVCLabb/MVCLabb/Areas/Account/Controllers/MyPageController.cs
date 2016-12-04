@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer;
 using MVCLabb.Data.Repositories;
+using MVCLabb.Data.Repositories.Interfaces;
 using MVCLabb.Models;
 using MVCLabb.Utilities;
 using System;
@@ -14,11 +15,11 @@ namespace MVCLabb.Areas.Account.Controllers
 {
     public class MyPageController : Controller
     {
-        private UserRepository repo;
+        private IUserRepository repo;
 
-        public MyPageController()
+        public MyPageController(IUserRepository repo)
         {
-            this.repo = new UserRepository();
+            this.repo = repo;
         }
         public ActionResult Index()
         {

@@ -9,12 +9,19 @@ using MVCLabb.Models;
 using MVCLabb.Utilities;
 using MVCLabb.Data.Repositories;
 using MVCLabb.Data.Models;
+using MVCLabb.Data.Repositories.Interfaces;
 
 namespace MVCLabb.Controllers
 {
     [AllowAnonymous]
     public class AuthController : Controller
     {
+        private IUserRepository repo;
+
+        public AuthController(IUserRepository repo)
+        {
+            this.repo = repo;
+        }
         // GET: Auth
         [HttpGet]
         public ActionResult Login()
@@ -25,7 +32,6 @@ namespace MVCLabb.Controllers
         [HttpPost]
         public ActionResult Login(UserViewModel model)
         {
-            var repo = new UserRepository();
             UserEntityModel userToLogin = null;
 
             userToLogin = repo.LoginUser(model.Email, model.Password);
@@ -69,7 +75,6 @@ namespace MVCLabb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registration(UserViewModel user)
         {
-            var repo = new UserRepository();
             user.guid = Guid.NewGuid();
 
                 if (ModelState.IsValid && !repo.isEmailTaken(user.Email))

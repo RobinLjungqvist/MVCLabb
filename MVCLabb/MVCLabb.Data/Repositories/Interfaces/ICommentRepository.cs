@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MVCLabb.Data.Repositories.Interfaces
 {
-    interface ICommentRepository
+    public interface ICommentRepository
     {
         IEnumerable<CommentEntityModel> All();
 

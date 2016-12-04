@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MVCLabb.Data.Repositories.Interfaces
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
         IEnumerable<UserEntityModel> All();
 
@@ -17,5 +17,8 @@ namespace MVCLabb.Data.Repositories.Interfaces
 
         bool Delete(int id);
 
+        UserEntityModel LoginUser(string email, string password);
+
+        bool isEmailTaken(string email);
     }
 }

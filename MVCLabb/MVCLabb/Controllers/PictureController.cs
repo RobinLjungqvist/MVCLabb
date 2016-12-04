@@ -39,7 +39,8 @@ namespace MVCLabb.Controllers
         [AllowAnonymous]
         public ActionResult Details(PictureViewModel picture)
         {
-            return View(picture);
+            var pictureModel = EntityModelMapper.EntityToModel(repo.ByID(picture.id));
+            return View(pictureModel);
         }
 
         public ActionResult Create(GalleryViewModel model)
@@ -63,8 +64,7 @@ namespace MVCLabb.Controllers
             if (photo != null && photo.ContentLength > 0)
             {
 
-
-                fileName = Path.GetFileName(photo.FileName);
+                fileName = model.UserID + model.GalleryID + Path.GetFileName(photo.FileName);
                 if (!Helpers.IsFilePicture(fileName))
                 {
                     return Content("The file must be a picture in the format png, jpg or jpeg");
@@ -123,9 +123,9 @@ namespace MVCLabb.Controllers
                         }
                     }
                 
-                return RedirectToAction("ViewGallery", "Gallery", new { id = GalleryID });
+                return Json(Url.Action("ViewGallery", "Gallery", new { id = GalleryID }));
             }
-            return Redirect(Request.UrlReferrer.ToString());
+            return Json(Request.UrlReferrer.ToString());
         }
 
         public ActionResult Edit(int id)
@@ -153,14 +153,16 @@ namespace MVCLabb.Controllers
 
             if (file != null && file.ContentLength > 0)
             {
-                RemoveFileIfSame(model);
-                RemoveOldFile(model);
 
-                fileName = Path.GetFileName(file.FileName);
+                fileName = model.UserID + model.GalleryID + Path.GetFileName(file.FileName);
                 path = Path.Combine(pictureFolder, fileName);
+
                 file.SaveAs(path);
 
-                model.Path = "~/Images/" + fileName + model.UserID;
+                model.Path = "~/Images/" + fileName;
+
+                RemoveOldFileIfExists(model);
+
             }
             model.DateEdited = DateTime.Now;
             if (ModelState.IsValid)
@@ -174,21 +176,14 @@ namespace MVCLabb.Controllers
             return View(model);
 
         }
-        private void RemoveFileIfSame(PictureViewModel picture)
-        {
-            FileInfo fileToDelete = new FileInfo(picture.Path);
-            if (fileToDelete.Exists)
-            {
-                fileToDelete.Delete();
-            }
-        }
-        private void RemoveOldFile(PictureViewModel picture)
+    
+        private void RemoveOldFileIfExists(PictureViewModel picture)
         {
             var oldpicture = repo.ByID(picture.id);
-
             if(oldpicture.Path != picture.Path)
             {
-                FileInfo oldfile = new FileInfo(oldpicture.Path);
+                var oldPhysicalPath = Request.MapPath(oldpicture.Path);
+                FileInfo oldfile = new FileInfo(oldPhysicalPath);
                 if (oldfile.Exists)
                 {
                     oldfile.Delete();

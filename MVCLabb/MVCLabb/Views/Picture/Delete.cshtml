@@ -52,13 +52,19 @@
     </dl>
     </div>
 
-    @using (Html.BeginForm("Delete", "Picture", new { id = Model.id, GalleryID = Model.GalleryID }, FormMethod.Post))
+    @using (Html.BeginForm("Delete", "Picture", new { id = Model.id, GalleryID = Model.GalleryID }, FormMethod.Post, new { id = "deletepictureform" }))
     {
         @Html.AntiForgeryToken()
-
+        @Html.HiddenFor(m => Model.id);
+        @Html.HiddenFor(m => Model.GalleryID);
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
             @Html.ActionLink("Back to image", "Details", "Picture", Model, null)
         </div>
     }
 
+@section scripts {
+    
+<script src="~/Scripts/deletepicture.js"></script>
+    
+    }

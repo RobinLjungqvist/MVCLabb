@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MVCLabb.Data.Repositories.Interfaces
 {
-    interface IPictureRepository
+    public interface IPictureRepository
     {
         IEnumerable<PictureEntityModel> All();
 

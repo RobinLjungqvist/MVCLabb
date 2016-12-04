@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer;
 using MVCLabb.Data.Repositories;
+using MVCLabb.Data.Repositories.Interfaces;
 using MVCLabb.Models;
 using MVCLabb.Utilities;
 using System;
@@ -13,12 +14,16 @@ namespace MVCLabb.Controllers
     [AllowAnonymous] /// Låter anonyma användare se sidan utan att vara authentiserade.
     public class HomeController : Controller
     {
+        private IPictureRepository repo { get; set; }
+        public HomeController(IPictureRepository repo)
+        {
+            this.repo = repo;
+        }
         // GET: Home
         public ActionResult Index()
         {
+            
             var newestPictures = new List<PictureViewModel>();
-            var repo = new PictureRepository();
-
             var picturesFromDB = repo.All().OrderByDescending(x => x.DatePosted).Take(5).ToList();
                 foreach (var pic in picturesFromDB)
                 {

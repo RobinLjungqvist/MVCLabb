@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer;
 using MVCLabb.Data.Repositories;
+using MVCLabb.Data.Repositories.Interfaces;
 using MVCLabb.Models;
 using MVCLabb.Utilities;
 using System;
@@ -16,11 +17,11 @@ namespace MVCLabb.Controllers
     public class GalleryController : Controller
     {
         // GET: Gallery
-        private GalleryRepository repo;
+        private IGalleryRepository repo;
 
-        public GalleryController()
+        public GalleryController(IGalleryRepository repo)
         {
-            this.repo = new GalleryRepository();
+            this.repo = repo;
         }
 
         [AllowAnonymous]
