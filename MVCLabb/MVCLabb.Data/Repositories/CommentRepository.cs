@@ -54,7 +54,10 @@ namespace MVCLabb.Data.Repositories
         {
             using (var ctx = new DataContext())
             {
-                var comments = ctx.Comments.Include(c => c.User).Include(c => c.Picture);
+                var comments = ctx.Comments
+                    .Include(c => c.User)
+                    .Include(c => c.Picture)
+                        .Include(c=>c.Picture.User);
                 return comments.ToList();
             }
         }
@@ -66,6 +69,7 @@ namespace MVCLabb.Data.Repositories
                 var comment = ctx.Comments.Where(c=> c.id == id)
                         .Include(c => c.User)
                         .Include(c => c.Picture)
+                            .Include(c => c.Picture.User)
                         .FirstOrDefault();
                 return comment;
             }
