@@ -5,7 +5,7 @@
 
 <h2>Registration</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Registration", "Auth", FormMethod.Post, new { ID = "registrationform" }))
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
@@ -43,3 +43,7 @@
     </div>
     <button type="submit" classs="btn btn-default">Register</button>
 }
+
+@section scripts{
+<script src="~/Scripts/registration.js"></script>
+    }

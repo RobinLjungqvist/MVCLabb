@@ -30,6 +30,7 @@ namespace MVCLabb.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(UserViewModel model)
         {
             UserEntityModel userToLogin = null;
@@ -57,11 +58,11 @@ namespace MVCLabb.Controllers
                 //Skicka in AuthenticationOptions om man vill ha persistent eller expiration date.
                 authManager.SignIn(identity);
 
-                return Redirect("/Home/Index");
+                return Content("/Home/Index");
 
             }
             ModelState.AddModelError("","Invalid Email or Password");
-            return View(model);
+            return Content("Invalid Email or Password");
         }
 
 
@@ -85,6 +86,10 @@ namespace MVCLabb.Controllers
                     
                     repo.AddOrUpdate(newUser);
 
+                if (Request.IsAjaxRequest())
+                {
+                    return Content("Login");
+                }
                     return Redirect("/Auth/Login");
                 }
             
@@ -92,6 +97,11 @@ namespace MVCLabb.Controllers
 
 
             ModelState.AddModelError("", "Something went wrong");
+
+            if (Request.IsAjaxRequest())
+            {
+                return Content("Invalid information!");
+            }
             return View(user);
         }
         
