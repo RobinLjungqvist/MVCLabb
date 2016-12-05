@@ -34,6 +34,7 @@ namespace MVCLabb.Data.Repositories
                         var newComment = new CommentEntityModel();
                         newComment.Title = comment.Title;
                         newComment.Comment = comment.Comment;
+                        newComment.DatePosted = comment.DatePosted;
                         newComment.DateEdited = comment.DateEdited;
                         newComment.UserID = comment.UserID;
                         newComment.PictureID = comment.PictureID;
