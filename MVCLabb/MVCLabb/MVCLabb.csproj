@@ -250,9 +250,9 @@
     <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+    <ProjectReference Include="..\DataAccessLayer\NotUsed_DataAccessLayer.csproj">
       <Project>{bee9ac01-6fa9-4a24-b181-102e53a9bec3}</Project>
-      <Name>DataAccessLayer</Name>
+      <Name>NotUsed_DataAccessLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\MVCLabb.Data\MVCLabb.Data.csproj">
       <Project>{5A686B1F-518C-4BE3-83A0-BAD97C62B7AC}</Project>

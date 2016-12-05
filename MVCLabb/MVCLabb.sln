@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCLabb", "MVCLabb\MVCLabb.csproj", "{727CB289-613F-4A69-8314-8B6BD99053C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{BEE9AC01-6FA9-4A24-B181-102E53A9BEC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotUsed_DataAccessLayer", "DataAccessLayer\NotUsed_DataAccessLayer.csproj", "{BEE9AC01-6FA9-4A24-B181-102E53A9BEC3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCLabb.Data", "MVCLabb.Data\MVCLabb.Data.csproj", "{5A686B1F-518C-4BE3-83A0-BAD97C62B7AC}"
 EndProject
