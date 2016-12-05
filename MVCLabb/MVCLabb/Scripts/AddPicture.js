@@ -3,29 +3,6 @@
 
 var form = $('#createform');
 
-//form.submit(function (e) {
-//    e.preventDefault();
-
-//    var formData = new FormData(form);
-
-//    //$.post("../../Picture/Create", formData, function (data) {
-//    //    swal(data);
-//    swal("error");
-//    //});
-//    $.ajax({
-//        method: "POST",
-//        url: "/Picture/Create",
-//        data: formData,
-//        complete: function(data){
-//            swal(data, "error");
-//        },
-//        datatype: 'json',
-//        processData: false,
-//        contentType: false
-
-//    });
-//});
-
 form.submit(function (e) {
 
     e.preventDefault();
