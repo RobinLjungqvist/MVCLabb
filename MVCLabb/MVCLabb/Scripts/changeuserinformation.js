@@ -22,7 +22,8 @@ userinfoForm.submit(function (e) {
         }
         else{
             oldemail = emailFormControl.val();
-            swal("Yay!", data, "success")
+            swal("Yay!", data, "success");
+            setTimeout(function () { location.reload() }, 1000);
         }
         if (data === "Couldn't update information") {
             swal("Oh no!", data, "error");

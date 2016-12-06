@@ -64,11 +64,17 @@ namespace MVCLabb.Areas.Account.Controllers
                     user.Email = model.Email;
                     repo.AddOrUpdate(user);
 
-                    //identity.AddClaim(new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName));
-                    //identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+                    var existingNameClaim = identity.FindFirst(x => x.Type == ClaimTypes.Name);
+                    if(existingNameClaim != null) { identity.RemoveClaim(existingNameClaim); }
+                    identity.AddClaim(new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName));
 
-                    //var ctx = Request.GetOwinContext();
-                    //ctx.Authentication.SignIn(identity);
+                    var existingEmailClaim = identity.FindFirst(x => x.Type == ClaimTypes.Email);
+                    if (existingEmailClaim != null)  { identity.RemoveClaim(existingEmailClaim); }
+                    identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+
+
+                    var ctx = Request.GetOwinContext();
+                    ctx.Authentication.SignIn(identity);
 
                     ViewData["Message"] = "User information updated";
 

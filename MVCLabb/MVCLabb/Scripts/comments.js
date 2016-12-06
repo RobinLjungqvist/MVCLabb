@@ -13,7 +13,7 @@ var reloadComments = function(e){
     //commentsContainer.on('load',);
     $.ajax({
         type: "GET",
-        url: "../../Comment/Comments?pictureID=" + $('#pictureID').val(),
+        url: "../../Comment/Comments?pictureID=" + $('#pictureID').val(), 
         success: function (data) {
             $('#commentcontainer').html(data);
         }
